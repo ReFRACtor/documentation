@@ -4,18 +4,16 @@ Setup
 
 .. highlight:: console
 
-The following sections describe how to obtain and initialize the tools and source code needed to develop and utilize the resources available for running the RT Retrieval Framework code. These sections describe a recommended directory structure that can be changed by the user. Operators/developers should feel free to reorganize where they deploy the tools. The organization has been designed to not necessitate any one strict directory organization.
+The following sections describe how to obtain and initialize the tools and source code needed to develop and utilize the resources available for running Refractor. These sections describe a recommended directory structure that can be changed by the user. Operators/developers should feel free to reorganize where they deploy the tools. The organization has been designed to not necessitate any one strict directory organization.
 
 Obtaining the Code
 ==================
 
-The `public copy <https://github.com/nasa/RtRetrievalFramework>`_ of the source code can be obtained from Github. 
+A public copy  of the source code will be available in the future, but at the current time it is available through the JPL Enterprise GitHub server:
 
 :: 
 
-    $ git clone https://github.com/nasa/RtRetrievalFramework.git 
-
-This is a clone of the development repository used at JPL. On a regular basis we push our changes to the public repository from JPL.
+    $ git clone https://github.jpl.nasa.gov/refractor/framework.git
 
 Enviroment Setup
 ================
@@ -37,6 +35,5 @@ The development environment checked out in the preceding section has the followi
 lib/               Where most source code lives
 input/             Input files and Lua configuration
 support/           Supporting utilities
-tests/             End-to-End tests
-unit_test_data/    Inputs and expected results used by unit tests
+unit_test_data/    Inputs and expected results used by full and unit tests
 =================  ========================

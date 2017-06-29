@@ -31,10 +31,10 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'RT Retrieval Framework'
-title = u'Rt Retrieval Framework User\'s Guide Documentation'
+project = u'Refractor'
+title = u'Refractor Documentation'
 author = u'Jet Propulsion Laboratory, California Institute of Technology'
-copyright = u'Copyright 2016 California Institute of Technology. U.S. Government sponsorship acknowledged'
+copyright = u'Copyright 2017 California Institute of Technology. U.S. Government sponsorship acknowledged'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -158,7 +158,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'RtRetrievalFrameworkdoc'
+htmlhelp_basename = 'RefractorDoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -176,9 +176,9 @@ latex_elements = {
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
-sponsorship = author.replace(',', ',\\\\') + '.\\\\\n\\\\' + u'Copyright 2016 California Institute of Technology.\\\\U.S. Government sponsorship acknowledged'
+sponsorship = author.replace(',', ',\\\\') + '.\\\\\n\\\\' + u'Copyright 2017 California Institute of Technology.\\\\U.S. Government sponsorship acknowledged'
 latex_documents = [
-  ('index', 'RtRetrievalFramework.tex', title, sponsorship, 'manual'),
+  ('index', 'Refractor.tex', title, sponsorship, 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -220,8 +220,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'RtRetrievalFramework', title,
-   author, 'RtRetrievalFramework', copyright,
+  ('index', 'Refractor', title,
+   author, 'Refractor', copyright,
    'Miscellaneous'),
 ]
 

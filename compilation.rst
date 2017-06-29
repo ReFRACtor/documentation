@@ -4,100 +4,98 @@ Compilation
 
 .. highlight:: console
 
-The RT Retrieval Framework uses the standard autotools used by many open source software. While you can build the software in the same directory that you have the source, it is suggested that you use a separate build directory. This allows you to do different builds from the same source, e.g. an optimized and debug version.
+The Refractor Framework use `CMake <http://cmake.org>`_ as it's build system. 
 
 Building
 ========
 
-There is some third party software included with the source code that need compiling along with our code. To build the framework's code along with the third party software, execute the following::
+First create a new directory where compilation will occur. If the :doc:`required dependencies <system_configuration>` are installed in standard locations, then at minimum the configuration of the system can be performed with the following command::
 
-    $ mkdir build_optimized
-    $ cd build_optimized
-    $ /your/path/to/rtr_framework/configure THIRDPARTY=build
-    $ make all
+    $ cmake /path/to/refractor
 
-In the above replace ``/your/path/to/rtr_framework`` with the location where you downloaded the software during the :doc:`setup` instructions.
+But to run unit and full tests the ABSCO and MERRA input's location path need to be specified. In that case supply options as follows to CMake::
 
-The ``configure`` command creates the Makefile to use. You only need to run this when you are creating a new build directory, after that you can just rerun ``make all`` to get any software updates. Configure will check a bunch of things on the system, and in the end print a report something like::
+    $ cmake /path/to/refractor -DABSCO_DIR=/path/to/absco -DMERRA_DIR=/path/to/merra
 
-     Level 2 Full Physics is now configured
+Once the build directory has been configured using CMake compilation is done using the standard ``make`` software. With out any arguments the ``all`` target will be use used::
 
-      Installation directory:       /your/path/to/build_optimized/install
-      Build debug version:          no
-      Fortran compiler type:        ifort
-      Fortran compiler:             /opt/local/depot/intel/11.1/064/bin/intel64/ifort -g -xSSE2 -O3 -Difort -heap-arrays 1024
-      C compiler:                   gcc -g -O2
-      LD Flags:                      -R /opt/local/depot/intel/11.1/064/lib/intel64:/opt/local/depot/intel/11.1/064/mkl/lib/em64t:/opt/local/depot/intel/11.1/064/lib/intel64:/opt/local/depot/intel/11.1/064/mkl/lib/em64t
+    $ make
 
-      HDF5 support:                 yes
-      Build own HDF5 library:       yes
-      Build own LIDORT library:     yes
-      Install documentation:        no
+If parallel make will be used it is recommended to run the ``thirdparty`` build target first without the ``-j`` option, for example, build ``all`` from scratch as follows::
 
-If you are building from within your source checkout you can just use the following script included with the source::
-
-    $ ./nonjpl_build.script
-
-In order to run all of the unit tests, you'll also need to have a copy of the ABSCO (Absoprtion Coefficient) tables. These files must be obtained separately from JPL.
-
-For serious development it is recommended to compile the third party software once and then refer to it in subsequent builds::
-
-    $ mkdir build_third_party
-    $ cd build_third_party
-    $ /your/path/to/rtr_framework/configure THIRDPARTY=build --prefix=/install/path/for/third_party
     $ make thirdparty
+    $ make -j 10 all
 
-Now subsequent builds can use this directory instead of recompiling the third party packages::
+The following table shows the most meaningful build targets available:
 
-    $ /your/path/to/rtr_framework/configure THIRDPARTY=/install/path/for/third_party
-    $ make all
-
-Build Results
-=============
-
-The executable is ``l2_fp``, and will be placed in the top of the build directory.
-
-Another useful target is ``install``, which will build ``l2_fp`` and copy it and all associated libraries to a separate install directory. The default directory used is ``./install`` unless you specify an alternative to ``configure``. This is primarily of use for production to put the executable files in a separate location. For a developer, you generally don't need to do this step.
+============ =========== 
+Target       Description
+============ ===========
+all          Builds the thirdparty, full_physics, l2_fp and python targets
+thirdparty   Builds third party software that is packaged with the source
+full_physics Builds the full_physics library
+l2_fp        Builds the l2_fp binary that uses the full_physics library
+python       Builds the SWIG Python bindings
+install      Installs the built system into the configured prefix, by default <build_dir>/install
+doc          Creates Doxygen API documentation
+unit_test    Runs all unit tests
+full_test    Runs all full tests
+nose_test    Runs all Python Nose tests
+============ =========== 
 
 Using Other Compilers
 =====================
 
-The configure script will search for one of the supported compilers -- ifort, f90, f95, gfortran, g95, pathf90, pgf90 - in that order.
+To use alternative paths to compilers supply the following environmental variables before running ``cmake``. **Note**: These must be defined before the first run of ``cmake``. You will have to use a clean build directory when changing them:
 
-Note that we only test with the Intel compiler "ifort" and "gfortran". We require a fairly new version of ifort (>= 11.1) and gfortran (>= 4.5).
+======== ===========
+Variable Description
+======== ===========
+CC       Defines the C compiler, defaults to gcc
+CXX      Defines the C++ compiler, defaults to g++
+FC       Defines the Fortran compiler, defaults to gfortran
+======== ===========
 
-If you want to use a different compiler than what configure automatically selects, you can specify it on the configure line as ``FC=<compiler>``, e.g., ``FC=f90``.
+The values supplied in these variables must be full paths. For example to use a different version of C++ you could do something like this::
 
-The thirdparty version of HDF-5 can only be built using ifort or gfortran. Other compilers will likely build if you don't try to build hdf5 (i.e., you don't have ``--with-hdf5=build``).
+    CC=$(which gcc-5) CXX=$(which g++-5) cmake /path/to/refractor
+
+If you use these variables in a script they will need to be exported to the shell environment first, the following is equivalent of the above:::
+
+    export CC=$(which gcc-5)
+    export CXX=$(which g++-5)
+    cmake /path/to/refractor
 
 Build Options
 =============
 
-The third party libraries can be selectively compiled by specifying configure options such as ``--with-hdf5=build``, or ``--with-lidort=build``. This will build your own version of these libraries. This is particularly useful if you are actually modifying, for instance the LIDORT code (e.g., a bug fix), but still want to refer to a prebuilt directory of third party software. The full list of third party libraries can be seen by running configure with the ``--help`` option.
-
-There are a few other options that can be passed to configure:
+There are many build options given to CMake that can be used to specify alternative locations of dependencies or to change the way the software is compiled. They are documented below. These are all supplied using the ``-D<option>=<value>`` option to ``cmake``.
 
 ======================== ===========
 Option                   Description 
 ======================== ===========
---help                   Print out all the options for configure 
---enable-debug           Build a version of l2_fp for debugging, rather than an optimized version
---enable-maintainer-mode Automatically update configure, Makefile.in. Useful if you are editing the various ".am" files 
---with-absco=<dir>       Specify location of ABSCO data used by unit tests 
---prefix=<dir>           Specify directory to install to 
-FC=<compiler>            Specify a compiler to use 
-THIRDPARTY=build         Build a local copy of all the third party libraries 
-THIRDPARTY=<dir>         Search in <dir> in addition to the normal locations for third party libraries 
+ABSCO_DIR                Path to the base path where ABSCO tables are installed
+MERRA_DIR                Path to where the MERRA Aerosol Apriori Database is installed
+CMAKE_INSTALL_PREFIX     Path where the ``install`` target should put files, defaults to ``<build_root>/install``
+CMAKE_BUILD_TYPE         Determines compiler flags used can be either ``Debug`` or ``Release``. The default is ``Release``
+BUILD_LUA                Set to ``1`` to build the supplied version of Lua even if its detected as installed on the system
+BUILD_LUABIND            Set to ``1`` to build the supplied version of Luabind even if its detected as installed on the system
+BUILD_PYTHON_BINDING     Set to ``OFF`` to disable building Python bindings, defaults to ``ON``
+GSL_ROOT_DIR             Base path to where GSL has been installed in case Cmake can not find it automatically
+BOOST_ROOT               Base path to where Boost++ has been installed in case Cmake can not find it automatically
+PYTHON_LIBRARY           Location of the Python library (``libpython.so``) in case Cmake can not find it or finds the wrong version
+PYTHON_EXECUTABLE        Location of the Python executable in case Cmake can not find it or finds the wrong version
+LIDORT_MAXLAYER          Number of atmospheric layers for LIDORT to use if the default value is too small
+LIDORT_MAXATMOSWFS       Number of atmospheric jacobians for LIDORT to use if the default value is too small
 ======================== ===========
 
 Debugging
 =========
 
-It has been discovered that gfortran works better with valgrind and debugging (although our "official" builds use ifort). Therefore if you need to use valgrind or gdb and have ifort installed in your path, you will need to directly specify the Fortran compiler as gfortran when creating debug builds::
+As noted in the last section, debug builds can be enabled as follows::
 
-    $ /path/to/level_2/configure FC=gfortran --enable-debug <other config options>
+    $ cmake /path/to/refractor -DCMAKE_BUILD_TYPE=Debug
 
-Developer Information
-=====================
+When running ``make`` the commands being run can be displayed by running make with the ``VERBOSE`` option::
 
-For developers who need to understand autotools in more detail, an nice introduction is found at `Autotools: a practitioner's guide to Autoconf, Automake and Libtool <http://www.freesoftwaremagazine.com/books/autotools_a_guide_to_autoconf_automake_libtool>`_, and detailed reference can be found at `Autobook <http://sources.redhat.com/autobook/autobook/autobook_toc.html>`_.
+    $ make VERBOSE=1
