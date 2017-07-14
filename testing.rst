@@ -4,57 +4,90 @@ Testing
 
 .. highlight:: console
 
+There are several types of testing that can be run either through the build system or independently. `CTest <https://cmake.org/Wiki/CMake/Testing_With_CTest>`_ is used as the test runner.
+
 Unit Testing
 ============
 
-There are two kinds of tests available. The first is unit testing. These test individual pieces of the system. The focus of this testing is on the software itself: did it build correctly, are the individual classes calculating what we expect them to.
+Unit tests check individual pieces of the system. The focus of this testing is on the software itself: did it build correctly, are the individual classes calculating expected results.
 
 The unit tests are fully automated. You can run them with the following command from a build directory::
 
-    $ make check
+    $ make unit_test
 
 This runs through all the unit tests that don't take a long time to run, and in the end says if the tests are successful or not (i.e., there is no analysis on your part, the test either succeeds or it doesn't).
 
-When running the unit tests, it can be useful to work in a debug build. This means the configuration used the ``--enable-debug`` flag. This runs slower, but it adds additional checks such as range checking in both the C+ and Fortran arrays.
-
-The target ``fast_check`` works just like ``check`` except it does not build any of the executables. You will not catch any problems introduced into the build of the top level executables. This test target is faster and used in instances where one is developing a class and only running unit tests. The target ``check`` should still be run after the major work on a class has been completed.
-
 A longer, more complete set of tests can be run using the command::
 
-    $ make long_check
+    $ L2_FP_LONG_CHECK=1 make unit_test
 
-This runs all the tests that ``make check`` does, plus additional tests that take longer to run. For an optimized build (without the ``--enable-debug`` flag in the configuration), this takes a few minutes to run. A debug version takes longer to run, but still runs in under an hour.
+This runs all the tests that ``make unit_test`` does, plus additional tests that take longer to run. For an optimized build this takes a few minutes to run, for a debug version takes much longer to run. 
 
-Just like with ``make check``, the long checks print out if the tests are successful or not.
+Support exists for specifying specific unit tests to run. To do this you will need to use CTest directly. In the ``test/`` subdirectory of the build directory is a script named ``ctest_wrap.sh``. This script provides some environmental variables needed by the unit tests then calls ``ctest``. It is created by the build system when ``cmake`` is first run. You must change to the ``test/`` directory for it to run correctly.
 
-Support exists for specifying specific unit tests to run. For instance so you can do::
+For example, to run just the LIDORT driver unit test you would do the following::
 
-    $ make fast_check run_test=lidort_driver/*
+    $ cd test/
+    $ ./ctest_wrap.sh -R lidort_driver
 
-The command above will run just the lsi_rt unit tests. This feature passes the string through to the ``--run_test`` argument of the Boost unit tests, so consult the `Boost documentation <http://www.boost.org/doc/libs/1_55_0/libs/test/doc/html/utf/user-guide/runtime-config/run-by-name.html>`_ to see what can be specified.
+The value given to ``-R`` is a regular expression that matches test names that can be seen when running all tests. See the `CTest manual <https://cmake.org/cmake/help/v3.0/manual/ctest.1.html>_` manual page for more details on what can be specified.
 
-This method does not catch breakage to any other classes, running the full suite should still be done occasionally to make sure everything is working.
+Full Tests
+==========
 
-Unit Testing Variables
-======================
+A build target ``full_test`` exists that runs two types of tests:
 
-The ABSCO tables are needed for certain unit tests. Once you have a copy of the ABSCO table files you can specify the location of these files when doing the initial configuration by specifying ``--with-absco=<dir>``. You can also override the default on the make command line used for testing, for example::
+* End to end tests
+* Python Nosetests
 
-    $ make fast_check run_test=lidort_driver/* abscodir=/path/to/my/copy/absco
+The compares the results against expected results, printing out the differences.
 
-End-to-End Test
+For example, to run all of these tests, in your build directory run::
+
+    $ make full_test
+
+To run specific tests CTest will need to be used directly again. For instance::
+
+    $ cd test/
+    $ ./ctest_wrap -R oco2_sounding_1
+
+These end to end test can be run using the ``full_test_regular`` make target. The Python Nose tests can be run with the ``full_test_python`` target.
+
+Parallel Testing
+================
+
+Tests can be run in parallel by specifying the ``CTEST_PARALLEL_LEVEL=<num>`` environment variable on  the command line. It works when running tests through make or CTest. For instance::
+
+    $ CTEST_PARALLEL=5 make unit_test
+
+Or::
+
+    $ cd test/
+    $ CTEST_PARALLEL=5 ./ctest_wrap.sh -R ^unit/
+
+Test Names
+==========
+
+The names of tests that are seen by CTest have a prefix of their type to make it easier to match against them. If ``ctest`` is run without any arguments then all unit, python and full tests would be run. The prefixes are as follows:
+
+============= ============
+Prefix        Type of Test
+============= ============
+unit/         Unit Tests
+full/regular  End to End Tests
+full/python   Nose Tests
+============= ============
+
+Testing Targets
 ===============
 
-A build target ``run_tests`` exists which runs l2_fp for several tests (unless it hasn't changed since the last run), and then compares the results against expected results, printing out the differences.  Individual tests are run by specifying the build name with the suffix ``_run``. The tests names can be seen by looking at the subdirectories under the ``tests/`` directory of the source code.
+The following a list of all make targets available:
 
-For example, to run all tests, in your build directory run::
-
-    $ make run_tests
-
-To test only a OCO-2 test case use the following target::
-
-    $ make oco2_sounding_1_run
-
-Or, to test only a GOSAT case use the following::
-
-    $ make tccon_sounding_1_run
+================== ===========
+Target             Description
+================== ===========
+unit_test          Unit tests
+full_test          Run regular and Python tests
+full_test_regular  End to end tests
+full_test_python   Python Nose tests
+================== ===========

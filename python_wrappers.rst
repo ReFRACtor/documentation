@@ -13,13 +13,7 @@ The wrappers are straight Python, but for interactive purposes use `IPython <htt
 Building
 ========
 
-The Python bindings are not built by default, you need to explicitly request that the bindings be compiled. This is done by adding an option to the configuration line:
-
-.. code-block:: console
-
-    $ /path/to/source/configure --with-python-swig
-
-You need to do a full install, not just a ``make all``. This is because Python needs to see the libraries in a particular directory structure that gets created with the install. So you would build with:
+To use the Python bindings, you need to do a full install, not just a ``make all``. This is because Python needs to see the libraries in a particular directory structure that gets created with the install. So you would build with:
 
 .. code-block:: console
 
@@ -180,118 +174,6 @@ This print out::
     Final chisq: 18.775889
 
 **NOTE:** This example only allows 10 evaluations of the cost function, and uses the default stopping criteria. This is really meant as a quick example, rather than saying this is a particularly good solver. Also, for C+ we were thinking of investigating the GSL. The GSL has python wrappers (`PyGSL <http://pygsl.sourceforge.net/>`_), and can be used as an alternative to the scipy solver. The standard Level 2 Full Physics solver gets a chisq of 0.614842 in 5 evaluations, so this example obviously needs some tuning to work for real.
-
-More Advanced Example
----------------------
-
-**DEPRECATED**
-
-The C+ interface exposed to Python has an interface centered around running the full physics retrieval. As we get feedback, we can extend this interface to be more useful in an investigative ipython environment. But you can also add your own layer of functionality on top of the lower level C+ interface, either as a quick prototype of a C+ interface change or instead of changing the C++.
-
-As a concrete example, the interface to the radiative transfer holds things like the solar zenith angle, number of streams, etc. fixed since these don't vary in the Level 2 Retrieval. But a very useful investigation would be to vary these parameters and see how they affect the Radiative Transfer results.
-
-The ConfigurationHeritage interface in the earlier examples are tied to a particular run configuration file. But there is no reason that you need to create objects strictly from the run file, you can also use the more generic constructors of various classes, or modify objects after they have been created.
-
-Continuing our example, here a wrapper class that sets up Lidort, the LRad polarization correction, and a model atmosphere based on the configuration file. You can then vary parameters such as the surface pressure, solar zenith angle, and number of streams. This example does not include the LSI speed up (since this example looks at a single wavelength), but you could include that is you wanted to for some reason.
-
-We create a new class "RtExtraKnobs". Save this in the file "rt_extra_knobs.py". Note while you are developing code like this, you can repeatedly load updated versions by using the ipython "%run" command (once it is complete, you can just import it like any other module).
-
-.. code-block:: python
-
-    import full_physics as fp
-
-    class RtExtraKnobs:
-        def __init__(self, fname="/groups/algorithm/python_tryout/sample_run/oco_l2.run"):
-             conf = fp.ConfigurationHeritage(fname)
-             self.conf = conf
-             self.atm = conf.atmosphere()
-             self.state_vector = conf.state_vector()
-             self.level_1b = conf.level_1b()
-             self.band = 0
-
-        # Return radiance for single point for given solar zenith, pressure,
-        # and number of streams
-        def radiance(self, wn, sza, surface_press, nstream):
-             try:
-                 self.atm.pressure().surface_pressure(surface_press)
-                 rt = self.__rt(sza, nstream)
-                 # Don't need log message for processing one point
-                 fp.FpLogger.turn_off_logger()
-                 return rt.radiance([wn], self.band)[0]
-             finally:
-                 # Turn back on
-                 fp.FpLogger.turn_on_logger()
-        
-        # The relative azimuth needs to be modified because the convention used
-        # in the OCO L1B1 file to to take both the solar and observation angles
-        # as viewed from an observer standing in the FOV. LIDORT on the other
-        # hand has the "follow the photons" convention. This results in a 180
-        # degree change
-        def __rel_azm(self, band):
-             r = (180 + self.level_1b.sounding_azimuth(band)) - \
-                 self.level_1b.solar_azimuth(band)
-             if(r >= 360): r = r - 360
-             if(r < 0): r = r + 360
-             return r
-        
-        # Get RT for a particular solar zenith angle and number of streams
-        def __rt(self, solar_zenith, number_stream):
-             band = self.band
-             # Hardcode these for this example
-             nbrdf_quadratures = 50
-             nstoke = 3
-             ss_corr = True
-             delta_m_scaling = True
-             uplooking = False
-             # Value needed to be true for LRad
-             get_rad_dif = True
-             nmom = number_stream if(number_stream >= 4) else 4
-             rt_lidort = fp.LidortDriver(self.atm, self.state_vector,
-                                             [self.level_1b.stokes_coefficient(band)],
-                                             [solar_zenith],
-                                             [self.level_1b.sounding_zenith(band)],
-                                             [self.__rel_azm(band)],
-                                             number_stream, nmom, nbrdf_quadratures,
-                                             nstoke, get_rad_dif, ss_corr,
-                                             delta_m_scaling, uplooking)
-             rt_lrad = fp.LRadDriver(rt_lidort, [solar_zenith],
-                                         [self.level_1b.sounding_zenith(band)],
-                                         [self.__rel_azm(band)])
-             return rt_lrad
-
-Once we have this module, we can use this in ipython to generate simple plots::
-
-    from rt_extra_knobs import *
-    rt = RtExtraKnobs()
-    # Value when we hold something constant
-    wn = 13005.0
-    sza = 74.0
-    psurf = 96716.0
-    nstream = 16
-
-    # Make versions of functions that only have one thing vary at a time
-    rad_by_sza = lambda x: rt.radiance(wn,x,psurf, nstream)
-    rad_by_psurf = lambda x: rt.radiance(wn,sza,x, nstream) 
-    rad_by_nstream = lambda n: rt.radiance(wn,sza,psurf, int(n))
-
-    nstream_arr = r_[4:32]
-    plot(nstream_arr, map(rad_by_nstream, nstream_arr))
-    pylab.xlabel("Number streams")
-    sza_arr = r_[0:90:5]
-    plot(sza_arr, map(rad_by_sza, sza_arr))
-    pylab.xlabel("Solar Zenith Angle")
-    psurf_arr = r_[90000:100000:100j]
-    plot(psurf_arr, map(rad_by_psurf, psurf_arr))
-    pylab.xlabel("Surface Pressure")
-
-.. image:: images/wrappers-fig_6.png
-   :align: center
-
-.. image:: images/wrappers-fig_7.png
-   :align: center
-
-.. image:: images/wrappers-fig_8.png
-   :align: center
 
 Python Callback
 ===============

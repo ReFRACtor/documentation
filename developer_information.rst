@@ -10,73 +10,16 @@ The rest of the user's guide is concerned with Level 2 from a user's point of vi
 Build System
 =============
 
-We use the same build system used by many open source projects, the standard "configure/make" cycle used to build many linux packages. The details of actually building the software is covered in the :doc:`compilation section <compilation>`.
+We use CMake for the build system. The details of actually building the software is covered in the :doc:`compilation section <compilation>`.
 
 We'll give a little more detail in this section on using the build system from a developer's point of view, e.g, "how do I add a file?".
-
-Autotools 
----------
-
-The system is built using the standard GNU autotools chain. If you are familiar with this, then this system is pretty standard. Things are set up as with most projects. Different projects seem to put local autoconf macros in different places, on this system they are in config/m4.
-
-If you are only vaguely familiar with autotools, it can be a bit confusing about what files we generate, and which are derived files.
-
-The file ./booststrap can be used to initial generate the derived files.
-
-The input files are configure.in and Makefile.am. From these files the ./configure and Makefile.in are generated. In addition to these file, there are local autoconf macros in config/m4, and derived files used by configure in the directory config. You can generally ignore these - you really need to know how to use autotools before you want to mess around with the autoconf macros (it isn't hard, just a bit obscure).
-
-To make it manageable, Makefile.am is broken into a number of pieces that are included into the top level Makefile.am file. Each directory with code has its own .am file that describes the code in that directory, for instance exe/full_physics/full_physics.am.
-
-Once these files are generated, the actual build is done by ./configure and make cycle that should be familiar if you've installed any of the GNU software before. This generates an actual Makefile.
-
-The specific tools used for each piece:
-
-* automake - most commonly used piece. This takes the various ".am" files and produces a Makefile.in file. This needs to be run whenever you change one of the automake files.
-* autoconf - produces the "configure" file. This takes the macros and configure.in file and produces the configure file. Need to run this when configure.in has been changed.
-* aclocal - collects all the local macros and prepares them for use with autoconf. Need to run this if you change any of the local ".m4" files. 
-* libtoolize - prepares libtool for use with automake. Only need to run this to update the version of libtool used.
-
-If can be easier to just run automake and the other tools by hand when needed, particularly if you only change something once in a while.
-
-However if you are going to regularly be modifying things (e.g., you are a developer), it can be convenient to enable "maintainer mode" in the Makefiles. This adds rules in the Makefile to rebuild the ./configure and Makefile.in files as needed. To turn this on, you add the option "--enable-maintainer-mode" when you do configure, e.g, "./configure --enable-maintainer-mode".
-
-There is nothing magic about maintainer mode, it just runs automake and autoconf when input files have changed.
-
-As you use autotools more, you may want to consult the `Automake manual <http://www.gnu.org/s/hello/manual/automake/Autotools-Introduction.html#Autotools-Introduction>`_. A very nice introduction to autotools is `Autotools: a practitioner's guide to Autoconf, Automake and Libtool <http://www.freesoftwaremagazine.com/books/autotools_a_guide_to_autoconf_automake_libtool>`_.
-
-Autotools Problems
-------------------
-
-Autotools has been showing its age and haphazard design for some time (often referred to as "auto-hell" for example see: "`Why the KDE project switched to CMake <http://lwn.net/Articles/188693/>`_"), however right now there isn't an obvious replacement. Most FOSS project still use these tools, so for now we'll continue to do the same. KDE recently moved to CMake, but right now they are the only large project to use CMake.
-
-For a user, autotools stuff work fine, all of the complication is in writing the input files during development. Fortunately, Level 2 Physics isn't particularly complicated compared to other projects (like KDE), so for now this complication is manageable.
-
-In the future, if there is a clear replacement for autotools, we may want to move this system to that.
 
 Adding New Code
 ---------------
 
-There are two steps to adding new code:
+To add new code so that it is found by the build system the appropriate ``CMakeLists.txt`` file under the ``lib/`` directory needs to be updated. Simply append the base name of the new C++ or Fortran file to the ``DIR_SOURCES`` variable. Unit test source code gets added to the ``TEST_SOURCES`` variable. There is no need to add header files specifically anywhere, they get picked up automatically. Additionally, SWIG ``.i`` interface files get picked up automatically.
 
-#. Update the corresponding ".am" file
-#. Run automake (either by hand or automatically if you did "--enable-maintainer-mode"
-
-The easiest way to add code is to open one of the existing ".am" files such as "implementation.am" and copy what is done there. Code is added by adding to make variables. There are typically 4 files associated with a new piece of code (one or more may be missing, in which case you just leave them off)
-
-* The header file (".h") gets added to "fullphysicsinc_HEADERS".
-* The source file (".cc", ".F90") get added to "libfp_la_SOURCES".
-* The SWIG interface file (".i") gets added to "SWIG_SOURCES".
-* The unit test file ("_test.cc") get added to "lib_test_all_SOURCES".
-
-After added the code, run automake to regenerate the Makefile.in
-
-Platform Information
-====================
-
-Mac
----
-
-The Mac does not put debugging information into an executable when you build it. Instead, there is a separate step using the "dsymutil" program. So if you want to debug l2_fp or test_all you need to first run dsymutil to get debugging information into it.
+Rerunning ``make`` from the build directory will trigger a call to rerun CMake to include the new source files.
 
 Design Information
 ==================

@@ -12,16 +12,6 @@ Doxygen
 
 `Doxygen <http://www.stack.nl/~dimitri/doxygen/>`_ documentation can be created from the build directory::
 
-    $ make doxygen-run
+    $ make doc
 
 The resulting documentation will be available in the ``doc/html`` subdirectory.
-
-Python
-======
-
-`Sphinx <http://www.sphinx-doc.org/en/stable/>`_ Python documentation can be built along with the Python bindings::
-
-    $ /path/to/rtr_framework/configure --with-python-swig --with-documentation
-    $ make install
-
-The ``--with-documentation`` creates the Sphinx files along with the code compilation. The resulting files will be in the ``install/share/doc/full_physics/html`` subdirectories.
