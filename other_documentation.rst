@@ -14,4 +14,4 @@ Doxygen
 
     $ make doc
 
-The resulting documentation will be available in the ``doc/html`` subdirectory.
+The resulting documentation will be available in the ``doc/api/html`` and ``doc/fortran/html`` subdirectories.
