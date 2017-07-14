@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Testing &#8212; Refractor  documentation</title>
+    
+    <link rel="stylesheet" href="_static/better.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Refractor  documentation" href="index.html" />
+    <link rel="next" title="Runs Setup" href="runs_setup.html" />
+    <link rel="prev" title="Compilation" href="compilation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  </head>
+  <body role="document">
+    <header id="pageheader"><h1><a href="index.html ">
+        Refractor  documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="compilation.html" title="Previous document">Compilation</a>
+        </li>
+        <li>
+          <a href="runs_setup.html" title="Next document">Runs Setup</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="index.html">Home</a></li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="testing">
+<h1>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h1>
+<p>There are several types of testing that can be run either through the build system or independently. <a class="reference external" href="https://cmake.org/Wiki/CMake/Testing_With_CTest">CTest</a> is used as the test runner.</p>
+<div class="section" id="unit-testing">
+<h2>Unit Testing<a class="headerlink" href="#unit-testing" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests check individual pieces of the system. The focus of this testing is on the software itself: did it build correctly, are the individual classes calculating expected results.</p>
+<p>The unit tests are fully automated. You can run them with the following command from a build directory:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make unit_test
+</pre></div>
+</div>
+<p>This runs through all the unit tests that don&#8217;t take a long time to run, and in the end says if the tests are successful or not (i.e., there is no analysis on your part, the test either succeeds or it doesn&#8217;t).</p>
+<p>A longer, more complete set of tests can be run using the command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nv">L2_FP_LONG_CHECK</span><span class="o">=</span><span class="m">1</span> make unit_test
+</pre></div>
+</div>
+<p>This runs all the tests that <code class="docutils literal"><span class="pre">make</span> <span class="pre">unit_test</span></code> does, plus additional tests that take longer to run. For an optimized build this takes a few minutes to run, for a debug version takes much longer to run.</p>
+<p>Support exists for specifying specific unit tests to run. To do this you will need to use CTest directly. In the <code class="docutils literal"><span class="pre">test/</span></code> subdirectory of the build directory is a script named <code class="docutils literal"><span class="pre">ctest_wrap.sh</span></code>. This script provides some environmental variables needed by the unit tests then calls <code class="docutils literal"><span class="pre">ctest</span></code>. It is created by the build system when <code class="docutils literal"><span class="pre">cmake</span></code> is first run. You must change to the <code class="docutils literal"><span class="pre">test/</span></code> directory for it to run correctly.</p>
+<p>For example, to run just the LIDORT driver unit test you would do the following:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> test/
+<span class="gp">$</span> ./ctest_wrap.sh -R lidort_driver
+</pre></div>
+</div>
+<p>The value given to <code class="docutils literal"><span class="pre">-R</span></code> is a regular expression that matches test names that can be seen when running all tests. See the <cite>CTest manual &lt;https://cmake.org/cmake/help/v3.0/manual/ctest.1.html&gt;_</cite> manual page for more details on what can be specified.</p>
+</div>
+<div class="section" id="full-tests">
+<h2>Full Tests<a class="headerlink" href="#full-tests" title="Permalink to this headline">¶</a></h2>
+<p>A build target <code class="docutils literal"><span class="pre">full_test</span></code> exists that runs two types of tests:</p>
+<ul class="simple">
+<li>End to end tests</li>
+<li>Python Nosetests</li>
+</ul>
+<p>The compares the results against expected results, printing out the differences.</p>
+<p>For example, to run all of these tests, in your build directory run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make full_test
+</pre></div>
+</div>
+<p>To run specific tests CTest will need to be used directly again. For instance:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> test/
+<span class="gp">$</span> ./ctest_wrap -R oco2_sounding_1
+</pre></div>
+</div>
+<p>These end to end test can be run using the <code class="docutils literal"><span class="pre">full_test_regular</span></code> make target. The Python Nose tests can be run with the <code class="docutils literal"><span class="pre">full_test_python</span></code> target.</p>
+</div>
+<div class="section" id="parallel-testing">
+<h2>Parallel Testing<a class="headerlink" href="#parallel-testing" title="Permalink to this headline">¶</a></h2>
+<p>Tests can be run in parallel by specifying the <code class="docutils literal"><span class="pre">CTEST_PARALLEL_LEVEL=&lt;num&gt;</span></code> environment variable on  the command line. It works when running tests through make or CTest. For instance:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nv">CTEST_PARALLEL</span><span class="o">=</span><span class="m">5</span> make unit_test
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> test/
+<span class="gp">$</span> <span class="nv">CTEST_PARALLEL</span><span class="o">=</span><span class="m">5</span> ./ctest_wrap.sh -R ^unit/
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-names">
+<h2>Test Names<a class="headerlink" href="#test-names" title="Permalink to this headline">¶</a></h2>
+<p>The names of tests that are seen by CTest have a prefix of their type to make it easier to match against them. If <code class="docutils literal"><span class="pre">ctest</span></code> is run without any arguments then all unit, python and full tests would be run. The prefixes are as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Prefix</th>
+<th class="head">Type of Test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>unit/</td>
+<td>Unit Tests</td>
+</tr>
+<tr class="row-odd"><td>full/regular</td>
+<td>End to End Tests</td>
+</tr>
+<tr class="row-even"><td>full/python</td>
+<td>Nose Tests</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="testing-targets">
+<h2>Testing Targets<a class="headerlink" href="#testing-targets" title="Permalink to this headline">¶</a></h2>
+<p>The following a list of all make targets available:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Target</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>unit_test</td>
+<td>Unit tests</td>
+</tr>
+<tr class="row-odd"><td>full_test</td>
+<td>Run regular and Python tests</td>
+</tr>
+<tr class="row-even"><td>full_test_regular</td>
+<td>End to end tests</td>
+</tr>
+<tr class="row-odd"><td>full_test_python</td>
+<td>Python Nose tests</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Testing</a><ul>
+<li><a class="reference internal" href="#unit-testing">Unit Testing</a></li>
+<li><a class="reference internal" href="#full-tests">Full Tests</a></li>
+<li><a class="reference internal" href="#parallel-testing">Parallel Testing</a></li>
+<li><a class="reference internal" href="#test-names">Test Names</a></li>
+<li><a class="reference internal" href="#testing-targets">Testing Targets</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="compilation.html"
+                        title="previous chapter">Compilation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="runs_setup.html"
+                        title="next chapter">Runs Setup</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/testing.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="compilation.html" title="Previous document">Compilation</a>
+        </li>
+        <li>
+          <a href="runs_setup.html" title="Next document">Runs Setup</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="index.html">Home</a></li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; Copyright 2017 California Institute of Technology. U.S. Government sponsorship acknowledged.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      1.4.8
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

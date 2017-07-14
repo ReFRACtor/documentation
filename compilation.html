@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Compilation &#8212; Refractor  documentation</title>
+    
+    <link rel="stylesheet" href="_static/better.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Refractor  documentation" href="index.html" />
+    <link rel="next" title="Testing" href="testing.html" />
+    <link rel="prev" title="System Configuraiton" href="system_configuration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  </head>
+  <body role="document">
+    <header id="pageheader"><h1><a href="index.html ">
+        Refractor  documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="system_configuration.html" title="Previous document">System Configuraiton</a>
+        </li>
+        <li>
+          <a href="testing.html" title="Next document">Testing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="index.html">Home</a></li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="compilation">
+<h1>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h1>
+<p>The Refractor Framework use <a class="reference external" href="http://cmake.org">CMake</a> as it&#8217;s build system.</p>
+<div class="section" id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>First create a new directory where compilation will occur. If the <a class="reference internal" href="system_configuration.html"><span class="doc">required dependencies</span></a> are installed in standard locations, then at minimum the configuration of the system can be performed with the following command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cmake /path/to/refractor
+</pre></div>
+</div>
+<p>But to run unit and full tests the ABSCO and MERRA input&#8217;s location path need to be specified. In that case supply options as follows to CMake:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cmake /path/to/refractor -DABSCO_DIR<span class="o">=</span>/path/to/absco -DMERRA_DIR<span class="o">=</span>/path/to/merra
+</pre></div>
+</div>
+<p>Once the build directory has been configured using CMake compilation is done using the standard <code class="docutils literal"><span class="pre">make</span></code> software. With out any arguments the <code class="docutils literal"><span class="pre">all</span></code> target will be use used:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make
+</pre></div>
+</div>
+<p>If parallel make will be used it is recommended to run the <code class="docutils literal"><span class="pre">thirdparty</span></code> build target first without the <code class="docutils literal"><span class="pre">-j</span></code> option, for example, build <code class="docutils literal"><span class="pre">all</span></code> from scratch as follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make thirdparty
+<span class="gp">$</span> make -j <span class="m">10</span> all
+</pre></div>
+</div>
+<p>The following table shows the most meaningful build targets available:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="88%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Target</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>all</td>
+<td>Builds the thirdparty, full_physics, l2_fp and python targets</td>
+</tr>
+<tr class="row-odd"><td>thirdparty</td>
+<td>Builds third party software that is packaged with the source</td>
+</tr>
+<tr class="row-even"><td>full_physics</td>
+<td>Builds the full_physics library</td>
+</tr>
+<tr class="row-odd"><td>l2_fp</td>
+<td>Builds the l2_fp binary that uses the full_physics library</td>
+</tr>
+<tr class="row-even"><td>python</td>
+<td>Builds the SWIG Python bindings</td>
+</tr>
+<tr class="row-odd"><td>install</td>
+<td>Installs the built system into the configured prefix, by default &lt;build_dir&gt;/install</td>
+</tr>
+<tr class="row-even"><td>doc</td>
+<td>Creates Doxygen API documentation</td>
+</tr>
+<tr class="row-odd"><td>unit_test</td>
+<td>Runs all unit tests</td>
+</tr>
+<tr class="row-even"><td>full_test</td>
+<td>Runs all full tests</td>
+</tr>
+<tr class="row-odd"><td>nose_test</td>
+<td>Runs all Python Nose tests</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="using-other-compilers">
+<h2>Using Other Compilers<a class="headerlink" href="#using-other-compilers" title="Permalink to this headline">¶</a></h2>
+<p>To use alternative paths to compilers supply the following environmental variables before running <code class="docutils literal"><span class="pre">cmake</span></code>. <strong>Note</strong>: These must be defined before the first run of <code class="docutils literal"><span class="pre">cmake</span></code>. You will have to use a clean build directory when changing them:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>CC</td>
+<td>Defines the C compiler, defaults to gcc</td>
+</tr>
+<tr class="row-odd"><td>CXX</td>
+<td>Defines the C++ compiler, defaults to g++</td>
+</tr>
+<tr class="row-even"><td>FC</td>
+<td>Defines the Fortran compiler, defaults to gfortran</td>
+</tr>
+</tbody>
+</table>
+<p>The values supplied in these variables must be full paths. For example to use a different version of C++ you could do something like this:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">CC=$(which gcc-5) CXX=$(which g++-5) cmake /path/to/refractor</span>
+</pre></div>
+</div>
+<p>If you use these variables in a script they will need to be exported to the shell environment first, the following is equivalent of the above::</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">export CC=$(which gcc-5)</span>
+<span class="go">export CXX=$(which g++-5)</span>
+<span class="go">cmake /path/to/refractor</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="build-options">
+<h2>Build Options<a class="headerlink" href="#build-options" title="Permalink to this headline">¶</a></h2>
+<p>There are many build options given to CMake that can be used to specify alternative locations of dependencies or to change the way the software is compiled. They are documented below. These are all supplied using the <code class="docutils literal"><span class="pre">-D&lt;option&gt;=&lt;value&gt;</span></code> option to <code class="docutils literal"><span class="pre">cmake</span></code>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ABSCO_DIR</td>
+<td>Path to the base path where ABSCO tables are installed</td>
+</tr>
+<tr class="row-odd"><td>MERRA_DIR</td>
+<td>Path to where the MERRA Aerosol Apriori Database is installed</td>
+</tr>
+<tr class="row-even"><td>CMAKE_INSTALL_PREFIX</td>
+<td>Path where the <code class="docutils literal"><span class="pre">install</span></code> target should put files, defaults to <code class="docutils literal"><span class="pre">&lt;build_root&gt;/install</span></code></td>
+</tr>
+<tr class="row-odd"><td>CMAKE_BUILD_TYPE</td>
+<td>Determines compiler flags used can be either <code class="docutils literal"><span class="pre">Debug</span></code> or <code class="docutils literal"><span class="pre">Release</span></code>. The default is <code class="docutils literal"><span class="pre">Release</span></code></td>
+</tr>
+<tr class="row-even"><td>BUILD_LUA</td>
+<td>Set to <code class="docutils literal"><span class="pre">1</span></code> to build the supplied version of Lua even if its detected as installed on the system</td>
+</tr>
+<tr class="row-odd"><td>BUILD_LUABIND</td>
+<td>Set to <code class="docutils literal"><span class="pre">1</span></code> to build the supplied version of Luabind even if its detected as installed on the system</td>
+</tr>
+<tr class="row-even"><td>BUILD_PYTHON_BINDING</td>
+<td>Set to <code class="docutils literal"><span class="pre">OFF</span></code> to disable building Python bindings, defaults to <code class="docutils literal"><span class="pre">ON</span></code></td>
+</tr>
+<tr class="row-odd"><td>GSL_ROOT_DIR</td>
+<td>Base path to where GSL has been installed in case Cmake can not find it automatically</td>
+</tr>
+<tr class="row-even"><td>BOOST_ROOT</td>
+<td>Base path to where Boost++ has been installed in case Cmake can not find it automatically</td>
+</tr>
+<tr class="row-odd"><td>PYTHON_LIBRARY</td>
+<td>Location of the Python library (<code class="docutils literal"><span class="pre">libpython.so</span></code>) in case Cmake can not find it or finds the wrong version</td>
+</tr>
+<tr class="row-even"><td>PYTHON_EXECUTABLE</td>
+<td>Location of the Python executable in case Cmake can not find it or finds the wrong version</td>
+</tr>
+<tr class="row-odd"><td>LIDORT_MAXLAYER</td>
+<td>Number of atmospheric layers for LIDORT to use if the default value is too small</td>
+</tr>
+<tr class="row-even"><td>LIDORT_MAXATMOSWFS</td>
+<td>Number of atmospheric jacobians for LIDORT to use if the default value is too small</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>As noted in the last section, debug builds can be enabled as follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cmake /path/to/refractor -DCMAKE_BUILD_TYPE<span class="o">=</span>Debug
+</pre></div>
+</div>
+<p>When running <code class="docutils literal"><span class="pre">make</span></code> the commands being run can be displayed by running make with the <code class="docutils literal"><span class="pre">VERBOSE</span></code> option:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make <span class="nv">VERBOSE</span><span class="o">=</span>1
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Compilation</a><ul>
+<li><a class="reference internal" href="#building">Building</a></li>
+<li><a class="reference internal" href="#using-other-compilers">Using Other Compilers</a></li>
+<li><a class="reference internal" href="#build-options">Build Options</a></li>
+<li><a class="reference internal" href="#debugging">Debugging</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="system_configuration.html"
+                        title="previous chapter">System Configuraiton</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="testing.html"
+                        title="next chapter">Testing</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/compilation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="system_configuration.html" title="Previous document">System Configuraiton</a>
+        </li>
+        <li>
+          <a href="testing.html" title="Next document">Testing</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="index.html">Home</a></li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; Copyright 2017 California Institute of Technology. U.S. Government sponsorship acknowledged.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      1.4.8
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>System Configuraiton &#8212; Refractor  documentation</title>
+    
+    <link rel="stylesheet" href="_static/better.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Refractor  documentation" href="index.html" />
+    <link rel="next" title="Compilation" href="compilation.html" />
+    <link rel="prev" title="Setup" href="setup.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  </head>
+  <body role="document">
+    <header id="pageheader"><h1><a href="index.html ">
+        Refractor  documentation
+    </a></h1></header>
+  <div class="related top">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="setup.html" title="Previous document">Setup</a>
+        </li>
+        <li>
+          <a href="compilation.html" title="Next document">Compilation</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="index.html">Home</a></li> 
+    </ul>
+  </nav>
+  </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="system-configuraiton">
+<h1>System Configuraiton<a class="headerlink" href="#system-configuraiton" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dependency-requirements">
+<h2>Dependency Requirements<a class="headerlink" href="#dependency-requirements" title="Permalink to this headline">¶</a></h2>
+<p>The following packages are required to be installed on the target system:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://cmake.org/">CMake</a> &gt;= 3.2</li>
+<li><a class="reference external" href="http://www.boost.org/">boost</a> &gt;= 1.59</li>
+<li><a class="reference external" href="https://www.gnu.org/software/gsl/">GNU Scientific Library (GSL)</a> &gt;= 2.0</li>
+<li><a class="reference external" href="https://support.hdfgroup.org/HDF5/">HDF5</a> &gt;= 1.8</li>
+<li><a class="reference external" href="https://www.python.org/">Python</a> &gt;= 3.5</li>
+<li><a class="reference external" href="https://www.lua.org/">Lua</a> &gt;= 5.2.2 built with a shared library</li>
+</ul>
+<p>If a package for Lua that includes a shared library is not available for the target system, a version bundled with the software package can be used. See the <a class="reference internal" href="compilation.html"><span class="doc">Compilation</span></a> instructions for more information.</p>
+<p>If you will be modifying the Python bindings, you will additionally need to install:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.swig.org/">SWIG</a> &gt;= 3.0</li>
+</ul>
+<p><a class="reference external" href="https://www.ruby-lang.org/">Ruby</a> is also required for some scripts, but not necessary unless you need to run them. We are eventually phasing out the need for Ruby as a requirement.</p>
+</div>
+<div class="section" id="python-requirements">
+<h2>Python Requirements<a class="headerlink" href="#python-requirements" title="Permalink to this headline">¶</a></h2>
+<p>The Python bindings to the framework and support Python programs require the following Python packages. Most likely your Linux distribution already has packages available using it&#8217;s respective package management tool. Otherwise, use the following links for details on installing each package:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.scipy.org/scipylib/download.html">Numpy/Scipy</a></li>
+<li><a class="reference external" href="http://matplotlib.sourceforge.net/users/installing.html">Matplotlib</a></li>
+<li><a class="reference external" href="http://h5py.alfven.org/docs/guide/build.html">h5py</a></li>
+<li><a class="reference external" href="http://www.dabeaz.com/ply/">PLY (Python Lex-Yacc)</a></li>
+<li><a class="reference external" href="http://readthedocs.org/docs/nose/en/latest/">nosetests</a></li>
+</ul>
+<p>There is a requirements.txt file at the base level of the package that can be used with pip to install the required packages:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="compilers-versions">
+<h2>Compilers Versions<a class="headerlink" href="#compilers-versions" title="Permalink to this headline">¶</a></h2>
+<p>One of the following combinations of compilers is needed:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://gcc.gnu.org/">GCC</a> and <a class="reference external" href="http://gcc.gnu.org/fortran/">GNU Fortran</a> at version 4.6 or greater</li>
+<li>GCC 4.6 or greater and <a class="reference external" href="http://software.intel.com/en-us/intel-compilers/">Intel Fortran Compiler</a>  11.1 or newer</li>
+</ul>
+</div>
+<div class="section" id="memory-requirements">
+<h2>Memory Requirements<a class="headerlink" href="#memory-requirements" title="Permalink to this headline">¶</a></h2>
+<p>Make sure your system has at least 2.5G of memory (including swap) available or else compilation may fail unexpectedly.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">System Configuraiton</a><ul>
+<li><a class="reference internal" href="#dependency-requirements">Dependency Requirements</a></li>
+<li><a class="reference internal" href="#python-requirements">Python Requirements</a></li>
+<li><a class="reference internal" href="#compilers-versions">Compilers Versions</a></li>
+<li><a class="reference internal" href="#memory-requirements">Memory Requirements</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="setup.html"
+                        title="previous chapter">Setup</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="compilation.html"
+                        title="next chapter">Compilation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/system_configuration.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form class="search" action="search.html" method="get">
+  <input type="text" name="q"
+   placeholder="type to search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="related bottom">
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="setup.html" title="Previous document">Setup</a>
+        </li>
+        <li>
+          <a href="compilation.html" title="Next document">Compilation</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+  <nav id="breadcrumbs">
+    <ul>
+      <li><a href="index.html">Home</a></li> 
+    </ul>
+  </nav>
+  </div>
+  <footer id="pagefooter">&copy; Copyright 2017 California Institute of Technology. U.S. Government sponsorship acknowledged.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a>
+      1.4.8
+        with the <a href="http://github.com/irskep/sphinx-better-theme">
+          better</a> theme.
+
+  </footer>
+
+  
+  </body>
+</html>
