@@ -164,4 +164,4 @@ doctest:
 
 github: html
 	ghp-import $(BUILDDIR)/html
-	git push public gh-pages
+	git push origin gh-pages
