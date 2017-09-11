@@ -52,7 +52,7 @@ Parallel Testing
 
 Tests can be run in parallel by specifying the ``CTEST_PARALLEL_LEVEL=<num>`` environment variable on  the command line. It works when running tests through make or CTest. For instance::
 
-    $ CTEST_PARALLEL=5 make unit_test
+    $ CTEST_PARALLEL_LEVEL=5 make unit_test
 
 Test Names
 ==========
