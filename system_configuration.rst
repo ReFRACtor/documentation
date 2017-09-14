@@ -15,14 +15,9 @@ The following packages are required to be installed on the target system:
 * `HDF5 <https://support.hdfgroup.org/HDF5/>`_ >= 1.8
 * `Python <https://www.python.org/>`_ >= 3.5
 * `Lua <https://www.lua.org/>`_ >= 5.2.2 built with a shared library
-
-If a package for Lua that includes a shared library is not available for the target system, a version bundled with the software package can be used. See the :doc:`Compilation <compilation>` instructions for more information.
-
-If you will be modifying the Python bindings, you will additionally need to install:
-
 * `SWIG <http://www.swig.org/>`_ >= 3.0 
 
-`Ruby <https://www.ruby-lang.org/>`_ is also required for some scripts, but not necessary unless you need to run them. We are eventually phasing out the need for Ruby as a requirement.
+If a package for Lua that includes a shared library is not available for the target system, a version bundled with the software package can be used. See the :doc:`Compilation <compilation>` instructions for more information.
 
 Python Requirements
 ===================
@@ -32,7 +27,6 @@ The Python bindings to the framework and support Python programs require the fol
 * `Numpy/Scipy <http://www.scipy.org/scipylib/download.html>`_
 * `Matplotlib <http://matplotlib.sourceforge.net/users/installing.html>`_
 * `h5py <http://h5py.alfven.org/docs/guide/build.html>`_
-* `PLY (Python Lex-Yacc) <http://www.dabeaz.com/ply/>`_
 * `nosetests <http://readthedocs.org/docs/nose/en/latest/>`_
 
 There is a requirements.txt file at the base level of the package that can be used with pip to install the required packages::
