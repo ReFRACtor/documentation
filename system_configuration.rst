@@ -25,9 +25,7 @@ Python Requirements
 The Python bindings to the framework and support Python programs require the following Python packages. Most likely your Linux distribution already has packages available using it's respective package management tool. Otherwise, use the following links for details on installing each package:
 
 * `Numpy/Scipy <http://www.scipy.org/scipylib/download.html>`_
-* `Matplotlib <http://matplotlib.sourceforge.net/users/installing.html>`_
-* `h5py <http://h5py.alfven.org/docs/guide/build.html>`_
-* `nosetests <http://readthedocs.org/docs/nose/en/latest/>`_
+* `pytest <https://docs.pytest.org/en/latest/>`_
 
 There is a requirements.txt file at the base level of the package that can be used with pip to install the required packages::
 
