@@ -15,16 +15,11 @@ A public copy  of the source code will be available in the future, but at the cu
 
     $ git clone https://github.jpl.nasa.gov/refractor/framework.git
 
-Enviroment Setup
-================
+Our repository uses `Git Large File Storage <https://git-lfs.github.com/>_` to store large binary files. It must be installed on the system you are using for development. Once it is installed you initialize its usage by doing the following from the checked out repository directory::
 
-The downloaded directory contains a bash script that will include into your shell environment paths and variables needed by various tools contained therein. These scripts should be sourced in your bash startup script in order for these tools to be configured and ready to use each time you log in.
-
-Add the following to your .bashrc or wherever you place these things for yourself::
-
-    $ source /path/to/source/setup_env.sh
-
-This script is used when working on code developing. On the :doc:`compilation` page it will be discussed how to use the software as an installed program.
+    $ git lfs install
+    $ git lfs update
+    $ git lfs pull
 
 Development Environment Organization
 ====================================
@@ -32,8 +27,10 @@ Development Environment Organization
 The development environment checked out in the preceding section has the following important sub-directories:
 
 =================  ========================
-lib/               Where most source code lives
+bindings/          Files related to Python interface binding
+doc/               Doxygen documentation configuration
 input/             Input files and Lua configuration
+lib/               Where most source code lives
 support/           Supporting utilities
-unit_test_data/    Inputs and expected results used by full and unit tests
+test/              Inputs, expected results and scripts used by full and unit tests
 =================  ========================

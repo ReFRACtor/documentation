@@ -73,23 +73,16 @@
 <li><a class="reference external" href="https://support.hdfgroup.org/HDF5/">HDF5</a> &gt;= 1.8</li>
 <li><a class="reference external" href="https://www.python.org/">Python</a> &gt;= 3.5</li>
 <li><a class="reference external" href="https://www.lua.org/">Lua</a> &gt;= 5.2.2 built with a shared library</li>
-</ul>
-<p>If a package for Lua that includes a shared library is not available for the target system, a version bundled with the software package can be used. See the <a class="reference internal" href="compilation.html"><span class="doc">Compilation</span></a> instructions for more information.</p>
-<p>If you will be modifying the Python bindings, you will additionally need to install:</p>
-<ul class="simple">
 <li><a class="reference external" href="http://www.swig.org/">SWIG</a> &gt;= 3.0</li>
 </ul>
-<p><a class="reference external" href="https://www.ruby-lang.org/">Ruby</a> is also required for some scripts, but not necessary unless you need to run them. We are eventually phasing out the need for Ruby as a requirement.</p>
+<p>If a package for Lua that includes a shared library is not available for the target system, a version bundled with the software package can be used. See the <a class="reference internal" href="compilation.html"><span class="doc">Compilation</span></a> instructions for more information.</p>
 </div>
 <div class="section" id="python-requirements">
 <h2>Python Requirements<a class="headerlink" href="#python-requirements" title="Permalink to this headline">¶</a></h2>
 <p>The Python bindings to the framework and support Python programs require the following Python packages. Most likely your Linux distribution already has packages available using it&#8217;s respective package management tool. Otherwise, use the following links for details on installing each package:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://www.scipy.org/scipylib/download.html">Numpy/Scipy</a></li>
-<li><a class="reference external" href="http://matplotlib.sourceforge.net/users/installing.html">Matplotlib</a></li>
-<li><a class="reference external" href="http://h5py.alfven.org/docs/guide/build.html">h5py</a></li>
-<li><a class="reference external" href="http://www.dabeaz.com/ply/">PLY (Python Lex-Yacc)</a></li>
-<li><a class="reference external" href="http://readthedocs.org/docs/nose/en/latest/">nosetests</a></li>
+<li><a class="reference external" href="https://docs.pytest.org/en/latest/">pytest</a></li>
 </ul>
 <p>There is a requirements.txt file at the base level of the package that can be used with pip to install the required packages:</p>
 <div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install -r requirements.txt

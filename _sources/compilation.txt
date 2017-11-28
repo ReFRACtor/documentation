@@ -83,6 +83,8 @@ BUILD_LUABIND            Set to ``1`` to build the supplied version of Luabind e
 BUILD_PYTHON_BINDING     Set to ``OFF`` to disable building Python bindings, defaults to ``ON``
 GSL_ROOT_DIR             Base path to where GSL has been installed in case Cmake can not find it automatically
 BOOST_ROOT               Base path to where Boost++ has been installed in case Cmake can not find it automatically
+HDF5_ROOT                Base path to where HDF5 library has been installed
+SWIG_EXECUTABLE          Path to the SWIG 3.0 executable file
 PYTHON_LIBRARY           Location of the Python library (``libpython.so``) in case Cmake can not find it or finds the wrong version
 PYTHON_EXECUTABLE        Location of the Python executable in case Cmake can not find it or finds the wrong version
 LIDORT_MAXLAYER          Number of atmospheric layers for LIDORT to use if the default value is too small

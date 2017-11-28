@@ -70,36 +70,39 @@
 <div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone https://github.jpl.nasa.gov/refractor/framework.git
 </pre></div>
 </div>
-</div>
-<div class="section" id="enviroment-setup">
-<h2>Enviroment Setup<a class="headerlink" href="#enviroment-setup" title="Permalink to this headline">¶</a></h2>
-<p>The downloaded directory contains a bash script that will include into your shell environment paths and variables needed by various tools contained therein. These scripts should be sourced in your bash startup script in order for these tools to be configured and ready to use each time you log in.</p>
-<p>Add the following to your .bashrc or wherever you place these things for yourself:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> /path/to/source/setup_env.sh
+<p>Our repository uses <cite>Git Large File Storage &lt;https://git-lfs.github.com/&gt;_</cite> to store large binary files. It must be installed on the system you are using for development. Once it is installed you initialize its usage by doing the following from the checked out repository directory:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> git lfs install
+<span class="gp">$</span> git lfs update
+<span class="gp">$</span> git lfs pull
 </pre></div>
 </div>
-<p>This script is used when working on code developing. On the <a class="reference internal" href="compilation.html"><span class="doc">Compilation</span></a> page it will be discussed how to use the software as an installed program.</p>
 </div>
 <div class="section" id="development-environment-organization">
 <h2>Development Environment Organization<a class="headerlink" href="#development-environment-organization" title="Permalink to this headline">¶</a></h2>
 <p>The development environment checked out in the preceding section has the following important sub-directories:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="24%" />
-<col width="76%" />
+<col width="21%" />
+<col width="79%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>lib/</td>
-<td>Where most source code lives</td>
+<tr class="row-odd"><td>bindings/</td>
+<td>Files related to Python interface binding</td>
 </tr>
-<tr class="row-even"><td>input/</td>
+<tr class="row-even"><td>doc/</td>
+<td>Doxygen documentation configuration</td>
+</tr>
+<tr class="row-odd"><td>input/</td>
 <td>Input files and Lua configuration</td>
+</tr>
+<tr class="row-even"><td>lib/</td>
+<td>Where most source code lives</td>
 </tr>
 <tr class="row-odd"><td>support/</td>
 <td>Supporting utilities</td>
 </tr>
-<tr class="row-even"><td>unit_test_data/</td>
-<td>Inputs and expected results used by full and unit tests</td>
+<tr class="row-even"><td>test/</td>
+<td>Inputs, expected results and scripts used by full and unit tests</td>
 </tr>
 </tbody>
 </table>
@@ -116,7 +119,6 @@
   <ul>
 <li><a class="reference internal" href="#">Setup</a><ul>
 <li><a class="reference internal" href="#obtaining-the-code">Obtaining the Code</a></li>
-<li><a class="reference internal" href="#enviroment-setup">Enviroment Setup</a></li>
 <li><a class="reference internal" href="#development-environment-organization">Development Environment Organization</a></li>
 </ul>
 </li>

@@ -77,42 +77,33 @@
 </pre></div>
 </div>
 <p>This runs all the tests that <code class="docutils literal"><span class="pre">make</span> <span class="pre">unit_test</span></code> does, plus additional tests that take longer to run. For an optimized build this takes a few minutes to run, for a debug version takes much longer to run.</p>
-<p>Support exists for specifying specific unit tests to run. To do this you will need to use CTest directly. In the <code class="docutils literal"><span class="pre">test/</span></code> subdirectory of the build directory is a script named <code class="docutils literal"><span class="pre">ctest_wrap.sh</span></code>. This script provides some environmental variables needed by the unit tests then calls <code class="docutils literal"><span class="pre">ctest</span></code>. It is created by the build system when <code class="docutils literal"><span class="pre">cmake</span></code> is first run. You must change to the <code class="docutils literal"><span class="pre">test/</span></code> directory for it to run correctly.</p>
-<p>For example, to run just the LIDORT driver unit test you would do the following:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> test/
-<span class="gp">$</span> ./ctest_wrap.sh -R lidort_driver
+<p>By supplying the <code class="docutils literal"><span class="pre">RUN_TESTS=</span></code> option to make, the build system can be instructed to run single tests or groups of tests. The value passed to <code class="docutils literal"><span class="pre">RUN_TESTS</span></code> should be a regular expression that matches the names of the intended tests. For example to only run the lidort_driver tests use the following command line:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make unit_test <span class="nv">RUN_TESTS</span><span class="o">=</span>lidort_driver
 </pre></div>
 </div>
-<p>The value given to <code class="docutils literal"><span class="pre">-R</span></code> is a regular expression that matches test names that can be seen when running all tests. See the <cite>CTest manual &lt;https://cmake.org/cmake/help/v3.0/manual/ctest.1.html&gt;_</cite> manual page for more details on what can be specified.</p>
 </div>
 <div class="section" id="full-tests">
 <h2>Full Tests<a class="headerlink" href="#full-tests" title="Permalink to this headline">¶</a></h2>
 <p>A build target <code class="docutils literal"><span class="pre">full_test</span></code> exists that runs two types of tests:</p>
 <ul class="simple">
 <li>End to end tests</li>
-<li>Python Nosetests</li>
+<li>Python Nose tests</li>
 </ul>
-<p>The compares the results against expected results, printing out the differences.</p>
+<p>The results are compared against expected results, printing out the differences.</p>
 <p>For example, to run all of these tests, in your build directory run:</p>
 <div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make full_test
 </pre></div>
 </div>
-<p>To run specific tests CTest will need to be used directly again. For instance:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> test/
-<span class="gp">$</span> ./ctest_wrap -R oco2_sounding_1
+<p>To run specific tests:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make full_test <span class="nv">RUN_TESTS</span><span class="o">=</span>sample
 </pre></div>
 </div>
-<p>These end to end test can be run using the <code class="docutils literal"><span class="pre">full_test_regular</span></code> make target. The Python Nose tests can be run with the <code class="docutils literal"><span class="pre">full_test_python</span></code> target.</p>
+<p>The end to end test can be run using the <code class="docutils literal"><span class="pre">full_test_regular</span></code> make target. The Python Nose tests can be run with the <code class="docutils literal"><span class="pre">full_test_python</span></code> target.</p>
 </div>
 <div class="section" id="parallel-testing">
 <h2>Parallel Testing<a class="headerlink" href="#parallel-testing" title="Permalink to this headline">¶</a></h2>
 <p>Tests can be run in parallel by specifying the <code class="docutils literal"><span class="pre">CTEST_PARALLEL_LEVEL=&lt;num&gt;</span></code> environment variable on  the command line. It works when running tests through make or CTest. For instance:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nv">CTEST_PARALLEL</span><span class="o">=</span><span class="m">5</span> make unit_test
-</pre></div>
-</div>
-<p>Or:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> test/
-<span class="gp">$</span> <span class="nv">CTEST_PARALLEL</span><span class="o">=</span><span class="m">5</span> ./ctest_wrap.sh -R ^unit/
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nv">CTEST_PARALLEL_LEVEL</span><span class="o">=</span><span class="m">5</span> make unit_test
 </pre></div>
 </div>
 </div>
@@ -171,6 +162,16 @@
 </tbody>
 </table>
 </div>
+<div class="section" id="advanced-testing">
+<h2>Advanced Testing<a class="headerlink" href="#advanced-testing" title="Permalink to this headline">¶</a></h2>
+<p>If the <code class="docutils literal"><span class="pre">RUN_TESTS</span></code> option is not sufficient for specifying what to run, CTest can be run directly. In the <code class="docutils literal"><span class="pre">test/</span></code> subdirectory of the build directory is a script named <code class="docutils literal"><span class="pre">ctest_wrap.sh</span></code>. This script provides some environmental variables needed by the unit tests then calls <code class="docutils literal"><span class="pre">ctest</span></code>. It is created by the build system when <code class="docutils literal"><span class="pre">cmake</span></code> is first run. You must change to the <code class="docutils literal"><span class="pre">test/</span></code> directory for it to run correctly.</p>
+<p>For example, to run just the LIDORT driver unit test using the CTest wrapper, do the following:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> test/
+<span class="gp">$</span> ./ctest_wrap.sh -R lidort_driver
+</pre></div>
+</div>
+<p>The value given to <code class="docutils literal"><span class="pre">-R</span></code> is a regular expression that matches test names that can be seen when running all tests. Any CTest option will be passed through the wrapper script. See the <cite>CTest manual &lt;https://cmake.org/cmake/help/v3.0/manual/ctest.1.html&gt;_</cite> manual page for more details on what can be specified.</p>
+</div>
 </div>
 
 
@@ -187,6 +188,7 @@
 <li><a class="reference internal" href="#parallel-testing">Parallel Testing</a></li>
 <li><a class="reference internal" href="#test-names">Test Names</a></li>
 <li><a class="reference internal" href="#testing-targets">Testing Targets</a></li>
+<li><a class="reference internal" href="#advanced-testing">Advanced Testing</a></li>
 </ul>
 </li>
 </ul>
