@@ -15,7 +15,7 @@ A public copy  of the source code will be available in the future, but at the cu
 
     $ git clone https://github.jpl.nasa.gov/refractor/framework.git
 
-Our repository uses `Git Large File Storage <https://git-lfs.github.com/>_` to store large binary files. It must be installed on the system you are using for development. Once it is installed you initialize its usage by doing the following from the checked out repository directory::
+Our repository uses `Git Large File Storage <https://git-lfs.github.com/>`_ to store large binary files. It must be installed on the system you are using for development. Once it is installed you initialize its usage by doing the following from the checked out repository directory::
 
     $ git lfs install
     $ git lfs update
