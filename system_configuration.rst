@@ -15,7 +15,7 @@ The following packages are required to be installed on the target system:
 * `HDF5 <https://support.hdfgroup.org/HDF5/>`_ >= 1.8
 * `Python <https://www.python.org/>`_ >= 3.5
 * `Lua <https://www.lua.org/>`_ >= 5.2.2 built with a shared library
-* `SWIG <http://www.swig.org/>`_ >= 3.0 
+* `SWIG <http://www.swig.org/>`_ >= 3.0.10
 
 If a package for Lua that includes a shared library is not available for the target system, a version bundled with the software package can be used. See the :doc:`Compilation <compilation>` instructions for more information.
 
