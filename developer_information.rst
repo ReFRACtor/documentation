@@ -2,6 +2,8 @@
 Developer's Information
 =======================
 
+.. warning:: This information is likely outdated and needs updating
+
 Introduction
 ============
 

@@ -2,6 +2,8 @@
 Lua Configuration
 =================
 
+.. warning:: This information will be replaced by better information about the Python configuration system
+
 .. highlight:: lua
 
 `Lua <http://www.lua.org>`_ is a lightweight, embeddable scripting language. It was chosen to manage the configuration over a declarative approach due to its flexibility. The code itself was written in a manner such that the C++ portions are components that have minimal dependency on each other and adhere to well defined interfaces. The Lua configuration selects which components are used and makes them aware of each other. The configuration files themselves are written in layers where more specific configurations extend the general. At the bottom level are configurations that implement instrument specific arrangements of components. These files specify which files are involved in the processing as well as algorithmic choices.  At this level the Lua code looks like declarative keyword/value configuration files. This approach combines flexibility with simplicity for end users.

@@ -34,7 +34,7 @@ master_doc = 'index'
 project = u'Refractor'
 title = u'Refractor Documentation'
 author = u'Jet Propulsion Laboratory, California Institute of Technology'
-copyright = u'Copyright 2017 California Institute of Technology. U.S. Government sponsorship acknowledged'
+copyright = u'Copyright 2018 California Institute of Technology. U.S. Government sponsorship acknowledged'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -176,7 +176,7 @@ latex_elements = {
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
-sponsorship = author.replace(',', ',\\\\') + '.\\\\\n\\\\' + u'Copyright 2017 California Institute of Technology.\\\\U.S. Government sponsorship acknowledged'
+sponsorship = author.replace(',', ',\\\\') + '.\\\\\n\\\\' + u'Copyright 2018 California Institute of Technology.\\\\U.S. Government sponsorship acknowledged'
 latex_documents = [
   ('index', 'Refractor.tex', title, sponsorship, 'manual'),
 ]

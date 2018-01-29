@@ -2,6 +2,8 @@
 Python Wrappers
 ===============
 
+.. warning:: This information is likely outdated and needs updating
+
 We have wrappers that allow the C+ Full Physics library to be used in Python.
 
 The exact same doxygen documentation is available in Python using the standard Python help system, in particular you can issue a command such as ``help(AtmosphereOco)``.
