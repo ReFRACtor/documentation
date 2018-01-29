@@ -1,38 +1,35 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Lua Configuration &#8212; Refractor  documentation</title>
-    
     <link rel="stylesheet" href="_static/better.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="Refractor  documentation" href="index.html" />
     <link rel="next" title="Python Wrappers" href="python_wrappers.html" />
     <link rel="prev" title="Testing" href="testing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   </head>
-  <body role="document">
+  <body>
     <header id="pageheader"><h1><a href="index.html ">
         Refractor  documentation
     </a></h1></header>
@@ -63,6 +60,10 @@
             
   <div class="section" id="lua-configuration">
 <h1>Lua Configuration<a class="headerlink" href="#lua-configuration" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This information will be replaced by better information about the Python configuration system</p>
+</div>
 <p><a class="reference external" href="http://www.lua.org">Lua</a> is a lightweight, embeddable scripting language. It was chosen to manage the configuration over a declarative approach due to its flexibility. The code itself was written in a manner such that the C++ portions are components that have minimal dependency on each other and adhere to well defined interfaces. The Lua configuration selects which components are used and makes them aware of each other. The configuration files themselves are written in layers where more specific configurations extend the general. At the bottom level are configurations that implement instrument specific arrangements of components. These files specify which files are involved in the processing as well as algorithmic choices.  At this level the Lua code looks like declarative keyword/value configuration files. This approach combines flexibility with simplicity for end users.</p>
 <p>The configuration loads input data, building a priori and initial guess vectors as it processes components. Components are connected to each other and passed their input in a hierarchal manner. Dependent components are loaded first so they are initialized and can be passed to components that need them. The top most level is the forward model component. It is created last and when ready called to start iterative execution as described in previous sections.</p>
 <div class="section" id="indexing">
@@ -71,7 +72,7 @@
 </div>
 <div class="section" id="organization">
 <h2>Organization<a class="headerlink" href="#organization" title="Permalink to this headline">¶</a></h2>
-<p>There are many separate Lua files involved in a single execution. These files have been organized such that the files with more general functionality are extended by files which use more specific implementation details. One of the configuration Lua files typically extends another by using the Lua <code class="docutils literal"><span class="pre">require</span></code> statement and Lua&#8217;s table inheritance.</p>
+<p>There are many separate Lua files involved in a single execution. These files have been organized such that the files with more general functionality are extended by files which use more specific implementation details. One of the configuration Lua files typically extends another by using the Lua <code class="docutils literal"><span class="pre">require</span></code> statement and Lua’s table inheritance.</p>
 <p>The graph below shows the organizational hierarchy for the OCO configuration:</p>
 <img src="_images/graphviz-013dc120ec2717f24c5d87824f24b7a318cb3a3d.png" alt="digraph file_hierarchy {
     rankdir=BT;
@@ -363,7 +364,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/lua.txt"
+      <li><a href="_sources/lua.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -397,9 +398,9 @@
     </ul>
   </nav>
   </div>
-  <footer id="pagefooter">&copy; Copyright 2017 California Institute of Technology. U.S. Government sponsorship acknowledged.
+  <footer id="pagefooter">&copy; Copyright 2018 California Institute of Technology. U.S. Government sponsorship acknowledged.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a>
-      1.4.8
+      1.6.6
         with the <a href="http://github.com/irskep/sphinx-better-theme">
           better</a> theme.
 

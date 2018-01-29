@@ -1,38 +1,35 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Developer’s Information &#8212; Refractor  documentation</title>
-    
     <link rel="stylesheet" href="_static/better.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="Refractor  documentation" href="index.html" />
     <link rel="next" title="Other Documentation" href="other_documentation.html" />
     <link rel="prev" title="Python Wrappers" href="python_wrappers.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   </head>
-  <body role="document">
+  <body>
     <header id="pageheader"><h1><a href="index.html ">
         Refractor  documentation
     </a></h1></header>
@@ -62,15 +59,19 @@
           <div class="body" role="main">
             
   <div class="section" id="developer-s-information">
-<h1>Developer&#8217;s Information<a class="headerlink" href="#developer-s-information" title="Permalink to this headline">¶</a></h1>
+<h1>Developer’s Information<a class="headerlink" href="#developer-s-information" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This information is likely outdated and needs updating</p>
+</div>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>The rest of the user&#8217;s guide is concerned with Level 2 from a user&#8217;s point of view, dealing with things like &#8220;How do a run the software&#8221; and &#8220;How do a I build it&#8221;. This document is concerned with Level 2 from a Developer&#8217;s point of view. It describes the overall software architecture, how to make changes to the system, etc.</p>
+<p>The rest of the user’s guide is concerned with Level 2 from a user’s point of view, dealing with things like “How do a run the software” and “How do a I build it”. This document is concerned with Level 2 from a Developer’s point of view. It describes the overall software architecture, how to make changes to the system, etc.</p>
 </div>
 <div class="section" id="build-system">
 <h2>Build System<a class="headerlink" href="#build-system" title="Permalink to this headline">¶</a></h2>
 <p>We use CMake for the build system. The details of actually building the software is covered in the <a class="reference internal" href="compilation.html"><span class="doc">compilation section</span></a>.</p>
-<p>We&#8217;ll give a little more detail in this section on using the build system from a developer&#8217;s point of view, e.g, &#8220;how do I add a file?&#8221;.</p>
+<p>We’ll give a little more detail in this section on using the build system from a developer’s point of view, e.g, “how do I add a file?”.</p>
 <div class="section" id="adding-new-code">
 <h3>Adding New Code<a class="headerlink" href="#adding-new-code" title="Permalink to this headline">¶</a></h3>
 <p>To add new code so that it is found by the build system the appropriate <code class="docutils literal"><span class="pre">CMakeLists.txt</span></code> file under the <code class="docutils literal"><span class="pre">lib/</span></code> directory needs to be updated. Simply append the base name of the new C++ or Fortran file to the <code class="docutils literal"><span class="pre">DIR_SOURCES</span></code> variable. Unit test source code gets added to the <code class="docutils literal"><span class="pre">TEST_SOURCES</span></code> variable. There is no need to add header files specifically anywhere, they get picked up automatically. Additionally, SWIG <code class="docutils literal"><span class="pre">.i</span></code> interface files get picked up automatically.</p>
@@ -81,15 +82,15 @@
 <h2>Design Information<a class="headerlink" href="#design-information" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="unit-classes">
 <h3>Unit classes<a class="headerlink" href="#unit-classes" title="Permalink to this headline">¶</a></h3>
-<p>We track physical units in our code (e.g., a velocity may be marked as &#8220;m/s&#8221;). This handles conversions when needed (e.g., add 10 m/s to 15 km/hr), and detects error with units that don&#8217;t match (e.g., add 5 m to 3 hr).</p>
-<p>The unit tracking is handled by the class &#8220;Unit&#8221;. Two closely related classes are DoubleWithUnit and the template ArrayWithUnit&lt;T, D&gt;. These two classes contain units along with a double or blitz::Array&lt;T, D&gt;.</p>
+<p>We track physical units in our code (e.g., a velocity may be marked as “m/s”). This handles conversions when needed (e.g., add 10 m/s to 15 km/hr), and detects error with units that don’t match (e.g., add 5 m to 3 hr).</p>
+<p>The unit tracking is handled by the class “Unit”. Two closely related classes are DoubleWithUnit and the template ArrayWithUnit&lt;T, D&gt;. These two classes contain units along with a double or blitz::Array&lt;T, D&gt;.</p>
 <img alt="_images/UnitDiagram.png" src="_images/UnitDiagram.png" />
 <p>The class Unit does dimensional analysis. We track the power of each of the SI base units.   In order, these are meter, kilogram, second, Kelvin, Ampere, mole, candela, steradian, radian, photon</p>
-<p>Note that steradian and radian are actually dimensionless, but it is useful to track them. Also photon is a photon count, which doesn&#8217;t really have units either. But it is useful to track because we can determine the photon count at a particular wavelength to convert to cm^-1.</p>
-<p>The units have a &#8220;name&#8221; associated with them. This is a free form string. The intent is this represents the units is a human readable form. We need to have this attached rather than automatically generated because depending on the context  we may represent the units in different manners. For example, the radiance units are usually given as &#8220;W / m^2 / sr / cm^-1&#8221;. This is exactly the same as &#8220;0.01 kg * m / s^3 / sr&#8221;, but the latter would be a fairly confusing way to label the radiance.  There is no real way to have a program know how we want the unit represented as a string, so the easiest thing to do is to just attach it.</p>
-<p>Note there is no problem going the other way. Given a string, we can uniquely parse it to give a Unit object. This is supported by the unit constructor, which can take strings such as &#8220;m/s&#8221; or &#8220;W / m^s / sr / cm^-1&#8221;.</p>
-<p>We can combine units using the operation &#8220;*&#8221;, &#8220;/&#8221; and &#8220;pow&#8217;. These handle the dimensional analysis, and creates a basic name. The name is generated by simple combination rules, but you may want to override the generated name with a preferred string. So for example kg * m / s * s can be called &#8220;N&#8221; for Newton.</p>
-<p>The DoubleWithUnit and ArrayWithUnit can be combined with the normal math operations of *, /, +, and -. You can also convert to a new set of units using &#8220;convert&#8221;.</p>
+<p>Note that steradian and radian are actually dimensionless, but it is useful to track them. Also photon is a photon count, which doesn’t really have units either. But it is useful to track because we can determine the photon count at a particular wavelength to convert to cm^-1.</p>
+<p>The units have a “name” associated with them. This is a free form string. The intent is this represents the units is a human readable form. We need to have this attached rather than automatically generated because depending on the context  we may represent the units in different manners. For example, the radiance units are usually given as “W / m^2 / sr / cm^-1”. This is exactly the same as “0.01 kg * m / s^3 / sr”, but the latter would be a fairly confusing way to label the radiance.  There is no real way to have a program know how we want the unit represented as a string, so the easiest thing to do is to just attach it.</p>
+<p>Note there is no problem going the other way. Given a string, we can uniquely parse it to give a Unit object. This is supported by the unit constructor, which can take strings such as “m/s” or “W / m^s / sr / cm^-1”.</p>
+<p>We can combine units using the operation “*”, “/” and “pow’. These handle the dimensional analysis, and creates a basic name. The name is generated by simple combination rules, but you may want to override the generated name with a preferred string. So for example kg * m / s * s can be called “N” for Newton.</p>
+<p>The DoubleWithUnit and ArrayWithUnit can be combined with the normal math operations of *, /, +, and -. You can also convert to a new set of units using “convert”.</p>
 </div>
 <div class="section" id="compile-vs-runtime-classes">
 <h3>Compile vs. Runtime classes<a class="headerlink" href="#compile-vs-runtime-classes" title="Permalink to this headline">¶</a></h3>
@@ -100,7 +101,7 @@
 <div class="section" id="instrument">
 <h3>Instrument<a class="headerlink" href="#instrument" title="Permalink to this headline">¶</a></h3>
 <p>The Instrument class is used by the ForwardModel to model the measurement instrument. This class takes the radiance values calculated on the high resolution spectral grid (using the RadiativeTransfer and SolarModel classes), and produces a low resolution spectral grid of radiance values. This data is what our instrument model would have seen if it was to observe the high resolution spectral grid.</p>
-<p>Any object of the Instrument class can be used, this just needs to supply one major function &#8220;apply_instrument_model&#8221;. There are two variations of this function, one that only processes the radiance data and one that also processes the Jacobian of the radiance data with respect to the StateVector.</p>
+<p>Any object of the Instrument class can be used, this just needs to supply one major function “apply_instrument_model”. There are two variations of this function, one that only processes the radiance data and one that also processes the Jacobian of the radiance data with respect to the StateVector.</p>
 <img alt="_images/InstrumentDiag2.png" src="_images/InstrumentDiag2.png" />
 <p>If you are implementing a new instrument, you just need to match the interface specified by Instrument. However, in practice your we have a instrument model as described in the OCO ATB. To implement this, we divide the different pieces of the instrument calculation into different pieces, as described in the next section.</p>
 <div class="section" id="ilsinstrument">
@@ -111,20 +112,20 @@
 </div>
 <div class="section" id="ils">
 <h4>Ils<a class="headerlink" href="#ils" title="Permalink to this headline">¶</a></h4>
-<p>The Ils class is responsible for doing modeling the Instrument Line Shape. There is one main function that needs to be implements &#8220;apply_ils&#8221;. This has two variations, with and without also calculation the Jacobian.</p>
+<p>The Ils class is responsible for doing modeling the Instrument Line Shape. There is one main function that needs to be implements “apply_ils”. This has two variations, with and without also calculation the Jacobian.</p>
 <p>You can use any object of the Ils class, but in practice we have one implementation we use IlsConvolution. This divides the calculation into three pieces. The dispersion calculation is done by a Dispersion object, this determines the wavenumbers for each of the instrument pixels we will be calculating. The IlsFunction determines the values we will be convolving with for a particular pixel And the IlsConvolution class actually convolves the high resolution spectra with the IlsFunction to get the low resolution instrument spectra.</p>
 </div>
 <div class="section" id="instrumentcorrection">
 <h4>InstrumentCorrection<a class="headerlink" href="#instrumentcorrection" title="Permalink to this headline">¶</a></h4>
-<p>After the ILS is done, zero or more instrument corrections can be applied. There is just one major function that needs to be supplied, &#8220;apply_correction&#8221;. This has two flavors, with and without Jacobian calculations.</p>
+<p>After the ILS is done, zero or more instrument corrections can be applied. There is just one major function that needs to be supplied, “apply_correction”. This has two flavors, with and without Jacobian calculations.</p>
 </div>
 <div class="section" id="dispersion">
 <h4>Dispersion<a class="headerlink" href="#dispersion" title="Permalink to this headline">¶</a></h4>
-<p>The Dispersion object determines the wavenumber of each instrument pixel. It supplies one function, &#8220;pixel_wavenumber&#8221;.</p>
+<p>The Dispersion object determines the wavenumber of each instrument pixel. It supplies one function, “pixel_wavenumber”.</p>
 </div>
 <div class="section" id="ilsfunction">
 <h4>IlsFunction<a class="headerlink" href="#ilsfunction" title="Permalink to this headline">¶</a></h4>
-<p>The IlsFunction object supplies one function, &#8220;ils&#8221;.</p>
+<p>The IlsFunction object supplies one function, “ils”.</p>
 </div>
 </div>
 <div class="section" id="lua-config">
@@ -144,21 +145,21 @@
 <h4>Lua For the Impatient<a class="headerlink" href="#lua-for-the-impatient" title="Permalink to this headline">¶</a></h4>
 <p>You should consult the documentation for details, but Lua is a very simple language (which is why we selected it). If you have used any procedural/OO language you should be able to pick up the syntax quickly. A few things to note:</p>
 <ol class="arabic simple">
-<li>Comments start with &#8220;&#8211;&#8221; and go to the end of the line (like C++ &#8220;//&#8221;).</li>
-<li>Classes are slightly different in Lua. It doesn&#8217;t directly support them, but supports &#8220;Tables&#8221; where are fairly similar. Like python, all function that you would think of as object oriented take &#8220;self&#8221; as the first argument. You can call a function on a class using the standard &#8221;.&#8221;, but if you do that you need to explicitly pass the object is, so &#8220;foo.func(foo, arg1, arg2)&#8221;. As a special notation, you can instead use &#8221;:&#8221; which automatically adds the object as the first argument, so &#8220;foo.func(foo,arg1, arg2)&#8221; is exactly the same as &#8220;foo:func(arg1, arg2)&#8221;. By convention, you should use the second form.</li>
+<li>Comments start with “–” and go to the end of the line (like C++ “//”).</li>
+<li>Classes are slightly different in Lua. It doesn’t directly support them, but supports “Tables” where are fairly similar. Like python, all function that you would think of as object oriented take “self” as the first argument. You can call a function on a class using the standard “.”, but if you do that you need to explicitly pass the object is, so “foo.func(foo, arg1, arg2)”. As a special notation, you can instead use “:” which automatically adds the object as the first argument, so “foo.func(foo,arg1, arg2)” is exactly the same as “foo:func(arg1, arg2)”. By convention, you should use the second form.</li>
 </ol>
 </div>
 <div class="section" id="wrapping-c-code">
 <h4>Wrapping C++ code<a class="headerlink" href="#wrapping-c-code" title="Permalink to this headline">¶</a></h4>
 <p>To create classes in Lua, we need to be able to call C++ code. The connection between Lua and C++ is handled by the Luabind library. This is a template based library that automatically generates the glue code between the two languages.</p>
 <p>The registration of the C++ code is handled by the RegisterLua class.</p>
-<p>One approach to this is to have a central function that registers everything, and as we add classes update that central function. An alternative is the one selected here, were we have a more decentralized registration. Classes set up the registration in their own area, and then simple get listed and needing registration in the file &#8220;register_lua.cc&#8221;.  It would be nice to decentralize this completely, but I could never figure out a way to actually do this.</p>
+<p>One approach to this is to have a central function that registers everything, and as we add classes update that central function. An alternative is the one selected here, were we have a more decentralized registration. Classes set up the registration in their own area, and then simple get listed and needing registration in the file “register_lua.cc”.  It would be nice to decentralize this completely, but I could never figure out a way to actually do this.</p>
 <p>So registration involves 2 steps:</p>
 <ol class="arabic simple">
-<li>Add the registration code to the class code (e.g., for Foo, this is the file &#8220;foo.cc&#8221;).</li>
-<li>Add the class to the list of classes in the function RegisterLua::register_lua found at &#8220;lib/Lua/register_lua.cc&#8221;</li>
+<li>Add the registration code to the class code (e.g., for Foo, this is the file “foo.cc”).</li>
+<li>Add the class to the list of classes in the function RegisterLua::register_lua found at “lib/Lua/register_lua.cc”</li>
 </ol>
-<p>The registration code is cookie cutter, so we have macros to help do this. The registration is different depending on if we have a derived class with a base class, or a class that doesn&#8217;t derive from another (or at least one that we want to tell Lua about).</p>
+<p>The registration code is cookie cutter, so we have macros to help do this. The registration is different depending on if we have a derived class with a base class, or a class that doesn’t derive from another (or at least one that we want to tell Lua about).</p>
 <p>An example of this in level_1b.cc:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#ifdef HAVE_LUA</span>
    <span class="c1">#include &quot;register_lua.h&quot;</span>
@@ -181,14 +182,14 @@
 <span class="n">REGISTER_LUA_LIST</span><span class="p">(</span><span class="n">Level1Hdf</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Note that you don&#8217;t need to put all the member functions into the Lua registration, just the ones you want to call in Lua. For many classes, this will just be the constructors. We use Lua configuration files for creating the objects needed in Level 2 Full physics, not to do major computation with it. That is more what we do with the Python wrappers. Lua is a small language that is ideal for integration in the C++ code, but it is no replacement for Python, nor is it meant to be.</p>
-<p>Pretty much all our classes are Printable. We&#8217;ve put the magic incantation in place for classes in the macros (this ties the Lua
-function __tostring__ to the C++ code print_to_string). If you have a class that is not printable, we&#8217;ll need to add a macro to support that.</p>
-<p>We normally use Lua through our C++ code. It can be useful, particularly when testing, to go the other way. We define the function &#8220;luaopen_fullphysics&#8221; to go the other way, call in Lua like:</p>
+<p>Note that you don’t need to put all the member functions into the Lua registration, just the ones you want to call in Lua. For many classes, this will just be the constructors. We use Lua configuration files for creating the objects needed in Level 2 Full physics, not to do major computation with it. That is more what we do with the Python wrappers. Lua is a small language that is ideal for integration in the C++ code, but it is no replacement for Python, nor is it meant to be.</p>
+<p>Pretty much all our classes are Printable. We’ve put the magic incantation in place for classes in the macros (this ties the Lua
+function __tostring__ to the C++ code print_to_string). If you have a class that is not printable, we’ll need to add a macro to support that.</p>
+<p>We normally use Lua through our C++ code. It can be useful, particularly when testing, to go the other way. We define the function “luaopen_fullphysics” to go the other way, call in Lua like:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">require</span><span class="p">(</span><span class="s2">&quot;libfull_physics&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that you should use the installed library, like we do with python (i.e., do a &#8220;make install&#8221;).</p>
+<p>Note that you should use the installed library, like we do with python (i.e., do a “make install”).</p>
 <p>You will need to make sure that the library is on the PATH. Lua uses an odd syntax for its path, an example of using it would be:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>LUA_CPATH=install/lib/?.so lua
 require &quot;libfull_physics&quot;
@@ -198,15 +199,15 @@ l1b = Level1bAcos(&quot;filename&quot;,&quot;soundingid&quot;)
 </div>
 <div class="section" id="writing-configuration-files">
 <h4>Writing Configuration Files<a class="headerlink" href="#writing-configuration-files" title="Permalink to this headline">¶</a></h4>
-<p>The configuration file purposely have very minimum requirements. To use in Level 2 full physics, you just need to create a handful of global variables however you would like. These variables are listed in the config.lua file found in input/gosat/config/config.lua. This includes things like &#8220;forward_model&#8221; and &#8220;solver&#8221;.</p>
-<p>However, most of the time you will want to use a &#8220;standard&#8221; run with possibly some local modifications. The &#8220;standard&#8221; run uses a nested set of files:</p>
+<p>The configuration file purposely have very minimum requirements. To use in Level 2 full physics, you just need to create a handful of global variables however you would like. These variables are listed in the config.lua file found in input/gosat/config/config.lua. This includes things like “forward_model” and “solver”.</p>
+<p>However, most of the time you will want to use a “standard” run with possibly some local modifications. The “standard” run uses a nested set of files:</p>
 <ul class="simple">
 <li>config_common.lua - General purpose routines for creating Level 2 objects</li>
-<li>base_config.lua - The &#8220;standard&#8221; way of building things</li>
+<li>base_config.lua - The “standard” way of building things</li>
 <li>dynamic_config.lua - Things that change from one run to the next, but in a systematic way (e.g, sounding_id, surface_type)</li>
 <li>config.lua - The local config file. In the simplest case, just include dynamic_config.lua without change. But can contain local modifications.</li>
 </ul>
-<p>It turns out that constructing objects tends to follow the same pattern for the many kinds of Level 2 objects we create. We have introduce a &#8220;Creator&#8221; Lua class (<em>not</em> Level 2 C++ class), along with a few derived classes to handle common scenarios. The UML diagram of this code:</p>
+<p>It turns out that constructing objects tends to follow the same pattern for the many kinds of Level 2 objects we create. We have introduce a “Creator” Lua class (<em>not</em> Level 2 C++ class), along with a few derived classes to handle common scenarios. The UML diagram of this code:</p>
 <img alt="_images/LuaConfigurationFile.png" src="_images/LuaConfigurationFile.png" />
 </div>
 <div class="section" id="debugging-configuration-files">
@@ -226,7 +227,7 @@ l1b = Level1bAcos(&quot;filename&quot;,&quot;soundingid&quot;)
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Developer&#8217;s Information</a><ul>
+<li><a class="reference internal" href="#">Developer’s Information</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#build-system">Build System</a><ul>
 <li><a class="reference internal" href="#adding-new-code">Adding New Code</a></li>
@@ -266,7 +267,7 @@ l1b = Level1bAcos(&quot;filename&quot;,&quot;soundingid&quot;)
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/developer_information.txt"
+      <li><a href="_sources/developer_information.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -300,9 +301,9 @@ l1b = Level1bAcos(&quot;filename&quot;,&quot;soundingid&quot;)
     </ul>
   </nav>
   </div>
-  <footer id="pagefooter">&copy; Copyright 2017 California Institute of Technology. U.S. Government sponsorship acknowledged.
+  <footer id="pagefooter">&copy; Copyright 2018 California Institute of Technology. U.S. Government sponsorship acknowledged.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a>
-      1.4.8
+      1.6.6
         with the <a href="http://github.com/irskep/sphinx-better-theme">
           better</a> theme.
 

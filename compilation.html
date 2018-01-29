@@ -1,38 +1,35 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Compilation &#8212; Refractor  documentation</title>
-    
     <link rel="stylesheet" href="_static/better.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="Refractor  documentation" href="index.html" />
     <link rel="next" title="Testing" href="testing.html" />
     <link rel="prev" title="System Configuraiton" href="system_configuration.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   </head>
-  <body role="document">
+  <body>
     <header id="pageheader"><h1><a href="index.html ">
         Refractor  documentation
     </a></h1></header>
@@ -63,14 +60,14 @@
             
   <div class="section" id="compilation">
 <h1>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h1>
-<p>The Refractor Framework use <a class="reference external" href="http://cmake.org">CMake</a> as it&#8217;s build system.</p>
+<p>The Refractor Framework use <a class="reference external" href="http://cmake.org">CMake</a> as it’s build system.</p>
 <div class="section" id="building">
 <h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
 <p>First create a new directory where compilation will occur. If the <a class="reference internal" href="system_configuration.html"><span class="doc">required dependencies</span></a> are installed in standard locations, then at minimum the configuration of the system can be performed with the following command:</p>
 <div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cmake /path/to/refractor
 </pre></div>
 </div>
-<p>But to run unit and full tests the ABSCO and MERRA input&#8217;s location path need to be specified. In that case supply options as follows to CMake:</p>
+<p>But to run unit and full tests the ABSCO and MERRA input’s location path need to be specified. In that case supply options as follows to CMake:</p>
 <div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cmake /path/to/refractor -DABSCO_DIR<span class="o">=</span>/path/to/absco -DMERRA_DIR<span class="o">=</span>/path/to/merra
 </pre></div>
 </div>
@@ -265,7 +262,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/compilation.txt"
+      <li><a href="_sources/compilation.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -299,9 +296,9 @@
     </ul>
   </nav>
   </div>
-  <footer id="pagefooter">&copy; Copyright 2017 California Institute of Technology. U.S. Government sponsorship acknowledged.
+  <footer id="pagefooter">&copy; Copyright 2018 California Institute of Technology. U.S. Government sponsorship acknowledged.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a>
-      1.4.8
+      1.6.6
         with the <a href="http://github.com/irskep/sphinx-better-theme">
           better</a> theme.
 
