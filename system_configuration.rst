@@ -19,6 +19,10 @@ The following packages are required to be installed on the target system:
 
 If a package for Lua that includes a shared library is not available for the target system, a version bundled with the software package can be used. See the :doc:`Compilation <compilation>` instructions for more information.
 
+On OS X, you may use `Homebrew <https://brew.sh/>`_ to obtain most of the required dependencies (Lua and Luabind will be built from the included source)::
+
+   $ brew install gsl cmake boost hdf5 swig python3 git-lfs doxygen pkgconfig graphviz
+
 Python Requirements
 ===================
 
@@ -34,10 +38,12 @@ There is a requirements.txt file at the base level of the package that can be us
 Compilers Versions
 ==================
 
-One of the following combinations of compilers is needed:
+One of the following combinations of compilers is needed to compile for Linux:
 
 * `GCC <https://gcc.gnu.org/>`_ and `GNU Fortran <http://gcc.gnu.org/fortran/>`_ at version 4.6 or greater
 * GCC 4.6 or greater and `Intel Fortran Compiler <http://software.intel.com/en-us/intel-compilers/>`_  11.1 or newer
+
+On OS X, only the clang/llvm C and C++ compilers bundled with Xcode or "Xcode Command Line Tools" version 8.2 or greater and `GNU Fortran <http://gcc.gnu.org/fortran/>`_ at version 6.1 or greater are known to work.
 
 Memory Requirements
 ===================
