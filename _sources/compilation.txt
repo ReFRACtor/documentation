@@ -77,7 +77,7 @@ Option                   Description
 ABSCO_DIR                Path to the base path where ABSCO tables are installed
 MERRA_DIR                Path to where the MERRA Aerosol Apriori Database is installed
 CMAKE_INSTALL_PREFIX     Path where the ``install`` target should put files, defaults to ``<build_root>/install``
-CMAKE_BUILD_TYPE         Determines compiler flags used can be either ``Debug``, ``Release`` or ``RelWithDebInfo``. The default is ``Release``
+CMAKE_BUILD_TYPE         Determines compiler flags used can be either ``Debug`` or ``Release``. The default is ``Release``
 BUILD_LUA                Set to ``1`` to build the supplied version of Lua even if its detected as installed on the system
 BUILD_LUABIND            Set to ``1`` to build the supplied version of Luabind even if its detected as installed on the system
 BUILD_PYTHON_BINDING     Set to ``OFF`` to disable building Python bindings, defaults to ``ON``
@@ -97,12 +97,6 @@ Debugging
 As noted in the last section, debug builds can be enabled as follows::
 
     $ cmake /path/to/refractor -DCMAKE_BUILD_TYPE=Debug
-
-The ``Debug`` build type does not use any compiler optimization. An alternative build type that uses compiler optimizations, but also includes debugging symbols, is the ``RelWithDebInfo`` build type. It can be enabled as follows::
-
-    $ cmake /path/to/refractor -DCMAKE_BUILD_TYPE=RelWithDebInfo
-
-The optimizations used with this build type are not as aggressive as with the default build type causing the code to run slightly slower.
 
 When running ``make`` the commands being run can be displayed by running make with the ``VERBOSE`` option::
 

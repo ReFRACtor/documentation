@@ -4,12 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Python Wrappers &#8212; Refractor  documentation</title>
     <link rel="stylesheet" href="_static/better.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
@@ -20,7 +28,8 @@
     <link rel="prev" title="Lua Configuration" href="lua.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  </head><body>
+  </head>
+  <body>
     <header id="pageheader"><h1><a href="index.html ">
         Refractor  documentation
     </a></h1></header>
@@ -56,32 +65,32 @@
 <p class="last">This information is likely outdated and needs updating</p>
 </div>
 <p>We have wrappers that allow the C+ Full Physics library to be used in Python.</p>
-<p>The exact same doxygen documentation is available in Python using the standard Python help system, in particular you can issue a command such as <code class="docutils literal notranslate"><span class="pre">help(AtmosphereOco)</span></code>.</p>
+<p>The exact same doxygen documentation is available in Python using the standard Python help system, in particular you can issue a command such as <code class="docutils literal"><span class="pre">help(AtmosphereOco)</span></code>.</p>
 <p>Check the Python documentation generated using doxygen for information what classes are available through Python.</p>
 <p>The wrappers are straight Python, but for interactive purposes use <a class="reference external" href="http://ipython.org/">IPython</a>, as well as the matplotlib and scipy libraries. If you aren’t familiar when them, you can take a look at their <a class="reference external" href="http://www.scipy.org/Getting_Started">getting started guide</a>.</p>
 <div class="section" id="building">
 <h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
-<p>To use the Python bindings, you need to do a full install, not just a <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">all</span></code>. This is because Python needs to see the libraries in a particular directory structure that gets created with the install. So you would build with:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> make all <span class="o">&amp;&amp;</span> make install
+<p>To use the Python bindings, you need to do a full install, not just a <code class="docutils literal"><span class="pre">make</span> <span class="pre">all</span></code>. This is because Python needs to see the libraries in a particular directory structure that gets created with the install. So you would build with:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> make all <span class="o">&amp;&amp;</span> make install
 </pre></div>
 </div>
 </div>
 <div class="section" id="running">
 <h2>Running<a class="headerlink" href="#running" title="Permalink to this headline">¶</a></h2>
 <p>After building, you need to make sure that the Python path is set to point to the installed library. You can do this using the setup script installed in the install area:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> ./install/setup_fp_env.sh
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> ./install/setup_fp_env.sh
 </pre></div>
 </div>
 </div>
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <p>First you will need to load the correct environmental variables then load a Python shell:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> ./install/setup_fp_env.sh
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">source</span> ./install/setup_fp_env.sh
 <span class="gp">$</span> ipython --matplotlib auto
 </pre></div>
 </div>
 <p>The easiest way to get started is by using a pre-existing Lua configuration:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">full_physics</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">full_physics</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">In [2]: </span><span class="kn">from</span> <span class="nn">matplotlib.pylab</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">In [3]: </span><span class="n">conf</span> <span class="o">=</span> <span class="n">L2FpConfigurationLua</span><span class="p">(</span><span class="s1">&#39;/path/to/existing_run/config.lua&#39;</span><span class="p">)</span>
 </pre></div>
@@ -90,20 +99,20 @@
 <div class="section" id="example-1-plotting-solar-spectrum">
 <h3>Example 1 - Plotting Solar Spectrum<a class="headerlink" href="#example-1-plotting-solar-spectrum" title="Permalink to this headline">¶</a></h3>
 <p>Get help on what conf is and can do:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [3]: </span><span class="n">help</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [3]: </span><span class="n">help</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If you are using IPython, you can just use a <code class="docutils literal notranslate"><span class="pre">?</span></code> after the object to get help:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [3]: </span><span class="n">conf</span><span class="err">?</span>
+<p>If you are using IPython, you can just use a <code class="docutils literal"><span class="pre">?</span></code> after the object to get help:</p>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [3]: </span><span class="n">conf</span><span class="err">?</span>
 </pre></div>
 </div>
 <p>The solar model object is one of several spectrum effects, arbitrary operators on spectrum before instrument effects have been processed. It will probably be at index 0 of the spectrum effects list. Get help on what solar model is and can do:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="n">help</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">speceff_val</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="n">help</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">speceff_val</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The second index above is the band index. Note that this is pretty much the same documentation as found in the <a class="reference external" href="http://nephthys.jpl.nasa.gov/~buildbot/doxygen/index.html">Doxygen Documentation</a>, or the <a class="reference external" href="http://nephthys.jpl.nasa.gov/~buildbot/python/index.html">Python Documentation</a> but it can be convenient to do this in IPython without going to a browser.</p>
 <p>We can plot the solar model with a couple of short commands as follows:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="n">band</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="n">band</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="gp">In [6]: </span><span class="n">spec_dom</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">pixel_spectral_domain</span><span class="p">(</span><span class="n">band</span><span class="p">)</span>
 <span class="gp">In [7]: </span><span class="n">solar_spec</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">speceff_val</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span><span class="o">.</span><span class="n">solar_spectrum</span><span class="p">(</span><span class="n">spec_dom</span><span class="p">)</span>
 <span class="gp">In [8]: </span><span class="n">plot</span><span class="p">(</span><span class="n">solar_spec</span><span class="o">.</span><span class="n">wavenumber</span><span class="p">,</span> <span class="n">solar_spec</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
@@ -114,22 +123,22 @@
 <div class="section" id="example-2-forward-model-without-jacobian">
 <h3>Example 2 - Forward model without Jacobian<a class="headerlink" href="#example-2-forward-model-without-jacobian" title="Permalink to this headline">¶</a></h3>
 <p>Run forward model and get radiances only for all the bands:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">r</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">radiance_all</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">r</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">radiance_all</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The boolean argument to <code class="docutils literal notranslate"><span class="pre">radiance_all</span></code> tells the code to skip Jacobian calculations.</p>
+<p>The boolean argument to <code class="docutils literal"><span class="pre">radiance_all</span></code> tells the code to skip Jacobian calculations.</p>
 </div>
 <div class="section" id="example-3-forward-model-with-jacobian">
 <h3>Example 3 - Forward model with Jacobian<a class="headerlink" href="#example-3-forward-model-with-jacobian" title="Permalink to this headline">¶</a></h3>
 <p>Run forward model and get radiance and Jacobian (takes longer to run):</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="n">r</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">radiance_all</span><span class="p">()</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="n">r</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">radiance_all</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="example-4-radiative-transfer">
 <h3>Example 4 - Radiative Transfer<a class="headerlink" href="#example-4-radiative-transfer" title="Permalink to this headline">¶</a></h3>
 <p>Run just the radiative transfer w/o applying solar or instrument model:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [11]: </span><span class="n">band</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [11]: </span><span class="n">band</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="gp">In [12]: </span><span class="n">ils_hw</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">ils_half_width</span><span class="p">(</span><span class="n">band</span><span class="p">)</span>
 <span class="gp">In [13]: </span><span class="n">spec_pix</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">pixel_spectral_domain</span><span class="p">(</span><span class="n">band</span><span class="p">)</span>
 <span class="gp">In [14]: </span><span class="n">spec_samp</span> <span class="o">=</span> \
@@ -140,7 +149,7 @@
 </div>
 <img alt="_images/wrappers-fig_2.png" class="align-center" src="_images/wrappers-fig_2.png" />
 <p>We can also run the RT with Jacobian not disabled and then plot up a portion of the spectral data (first dim) for all state vector types:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [17]: </span><span class="n">rrt</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">radiative_transfer</span><span class="o">.</span><span class="n">reflectance</span><span class="p">(</span><span class="n">spec_samp</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [17]: </span><span class="n">rrt</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">radiative_transfer</span><span class="o">.</span><span class="n">reflectance</span><span class="p">(</span><span class="n">spec_samp</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span>
 <span class="gp">In [18]: </span><span class="n">jac</span> <span class="o">=</span> <span class="n">rrt</span><span class="o">.</span><span class="n">spectral_range</span><span class="o">.</span><span class="n">data_ad</span><span class="o">.</span><span class="n">jacobian</span>
 <span class="gp">In [19]: </span><span class="n">matshow</span><span class="p">(</span><span class="n">jac</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">80</span><span class="p">,</span> <span class="p">:],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">)</span>
 <span class="gp">In [20]: </span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;State Index&quot;</span><span class="p">)</span>
@@ -150,7 +159,7 @@
 <p>This shows that the Jacobian is dominated by one value:</p>
 <img alt="_images/wrappers-fig_5.png" class="align-center" src="_images/wrappers-fig_5.png" />
 <p>Look at vector and find largest one, and name of it:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [22]: </span><span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">state_vector</span><span class="o">.</span><span class="n">state_vector_name</span><span class="p">[</span><span class="n">argmax</span><span class="p">(</span><span class="n">jac</span><span class="p">[</span><span class="mi">0</span><span class="p">,:])]</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [22]: </span><span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">state_vector</span><span class="o">.</span><span class="n">state_vector_name</span><span class="p">[</span><span class="n">argmax</span><span class="p">(</span><span class="n">jac</span><span class="p">[</span><span class="mi">0</span><span class="p">,:])]</span>
 <span class="gr">Out[22]: </span><span class="s1">&#39;Ground Lambertian A-Band Albedo Parm 2&#39;</span>
 </pre></div>
 </div>
@@ -158,7 +167,7 @@
 <div class="section" id="example-5-apply-solar-and-instrument-models">
 <h3>Example 5 - Apply Solar and Instrument Models<a class="headerlink" href="#example-5-apply-solar-and-instrument-models" title="Permalink to this headline">¶</a></h3>
 <p>To apply the solar model and the instrument model along with other effects we would use the RT spectrum from the last example:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [26]: </span><span class="n">rinst</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">apply_spectrum_corrections</span><span class="p">(</span><span class="n">rrt</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="gp">In [26]: </span><span class="n">rinst</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">forward_model</span><span class="o">.</span><span class="n">apply_spectrum_corrections</span><span class="p">(</span><span class="n">rrt</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span>
 <span class="gp">In [27]: </span><span class="n">plot</span><span class="p">(</span><span class="n">rinst</span><span class="o">.</span><span class="n">spectral_domain</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rinst</span><span class="o">.</span><span class="n">spectral_range</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -169,7 +178,7 @@
 <p><strong>DEPRECATED</strong></p>
 <p>Python SciPy comes with some generic solvers, including one based on the standard Fortran minpack routines. We have a version of the cost function that uses the more standard format of embedding the a priori values, a priori covariance matrix, and radiance uncertainty:</p>
 <p>As an example of using this:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go">import scipy.optimize</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="go">import scipy.optimize</span>
 
 <span class="go">cost_func = FmStandardFormatCostFunction(conf.forward_model(), \</span>
 <span class="go">        conf.spectral_window_apply().radiance(), \</span>
@@ -192,7 +201,7 @@
 </pre></div>
 </div>
 <p>This print out:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go">Initial chisq: 131.571840</span>
+<div class="highlight-ipython"><div class="highlight"><pre><span></span><span class="go">Initial chisq: 131.571840</span>
 <span class="go">Final chisq: 18.775889</span>
 </pre></div>
 </div>
@@ -275,7 +284,7 @@
   </div>
   <footer id="pagefooter">&copy; Copyright 2018 California Institute of Technology. U.S. Government sponsorship acknowledged.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a>
-      1.7.1
+      1.6.6
         with the <a href="http://github.com/irskep/sphinx-better-theme">
           better</a> theme.
 

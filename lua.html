@@ -4,12 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Lua Configuration &#8212; Refractor  documentation</title>
     <link rel="stylesheet" href="_static/better.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
@@ -20,7 +28,8 @@
     <link rel="prev" title="Testing" href="testing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  </head><body>
+  </head>
+  <body>
     <header id="pageheader"><h1><a href="index.html ">
         Refractor  documentation
     </a></h1></header>
@@ -63,7 +72,7 @@
 </div>
 <div class="section" id="organization">
 <h2>Organization<a class="headerlink" href="#organization" title="Permalink to this headline">¶</a></h2>
-<p>There are many separate Lua files involved in a single execution. These files have been organized such that the files with more general functionality are extended by files which use more specific implementation details. One of the configuration Lua files typically extends another by using the Lua <code class="docutils literal notranslate"><span class="pre">require</span></code> statement and Lua’s table inheritance.</p>
+<p>There are many separate Lua files involved in a single execution. These files have been organized such that the files with more general functionality are extended by files which use more specific implementation details. One of the configuration Lua files typically extends another by using the Lua <code class="docutils literal"><span class="pre">require</span></code> statement and Lua’s table inheritance.</p>
 <p>The graph below shows the organizational hierarchy for the OCO configuration:</p>
 <img src="_images/graphviz-013dc120ec2717f24c5d87824f24b7a318cb3a3d.png" alt="digraph file_hierarchy {
     rankdir=BT;
@@ -96,9 +105,9 @@
 </div>
 <div class="section" id="config-common">
 <h2>Config Common<a class="headerlink" href="#config-common" title="Permalink to this headline">¶</a></h2>
-<p>As the table above states, <code class="docutils literal notranslate"><span class="pre">config_common.lua</span></code> is collection of common routines that are not instrument specific. It defines <code class="docutils literal notranslate"><span class="pre">ConfigCommon</span></code>, a table object which contains the configuration and also serves as a name space. The most important method is <code class="docutils literal notranslate"><span class="pre">do_config</span></code>. It is called from the lowest level configuration file to begin the process of instantiating objects.</p>
-<p>The framework objects are created through Lua <code class="docutils literal notranslate"><span class="pre">Creator</span></code> classes. These classes define how a particular functionality is instantiated. They also provide an initial guess value, objects to be added to the state vector and objects to be registered into the output file. The <code class="docutils literal notranslate"><span class="pre">Creator</span></code> class also handles calling any other <code class="docutils literal notranslate"><span class="pre">Creator</span></code> objects that it depends on.</p>
-<p>The hierarchy of <code class="docutils literal notranslate"><span class="pre">Creator</span></code> objects forms a tree which at the top is the one <code class="docutils literal notranslate"><span class="pre">Creator</span></code> that <code class="docutils literal notranslate"><span class="pre">do_config</span></code> knows about directly, the <code class="docutils literal notranslate"><span class="pre">fm</span></code> creator. All other <code class="docutils literal notranslate"><span class="pre">Creator</span></code> objects are dependencies of this one or other <code class="docutils literal notranslate"><span class="pre">Creator</span></code> objects. The graph below shows the organization of the <code class="docutils literal notranslate"><span class="pre">Creator</span></code> objects in the current OCO configuration.</p>
+<p>As the table above states, <code class="docutils literal"><span class="pre">config_common.lua</span></code> is collection of common routines that are not instrument specific. It defines <code class="docutils literal"><span class="pre">ConfigCommon</span></code>, a table object which contains the configuration and also serves as a name space. The most important method is <code class="docutils literal"><span class="pre">do_config</span></code>. It is called from the lowest level configuration file to begin the process of instantiating objects.</p>
+<p>The framework objects are created through Lua <code class="docutils literal"><span class="pre">Creator</span></code> classes. These classes define how a particular functionality is instantiated. They also provide an initial guess value, objects to be added to the state vector and objects to be registered into the output file. The <code class="docutils literal"><span class="pre">Creator</span></code> class also handles calling any other <code class="docutils literal"><span class="pre">Creator</span></code> objects that it depends on.</p>
+<p>The hierarchy of <code class="docutils literal"><span class="pre">Creator</span></code> objects forms a tree which at the top is the one <code class="docutils literal"><span class="pre">Creator</span></code> that <code class="docutils literal"><span class="pre">do_config</span></code> knows about directly, the <code class="docutils literal"><span class="pre">fm</span></code> creator. All other <code class="docutils literal"><span class="pre">Creator</span></code> objects are dependencies of this one or other <code class="docutils literal"><span class="pre">Creator</span></code> objects. The graph below shows the organization of the <code class="docutils literal"><span class="pre">Creator</span></code> objects in the current OCO configuration.</p>
 <img src="_images/graphviz-4348da7995189035a6cd8081e3c0bccf68253148.png" alt="graph config_hierarchy {
     fm -- common;
     fm -- spec_win;
@@ -139,21 +148,21 @@
 </div>
 <div class="section" id="base-config">
 <h2>Base Config<a class="headerlink" href="#base-config" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">oco_config.lua</span></code> extends the <code class="docutils literal notranslate"><span class="pre">ConfigCommon</span></code> object with <code class="docutils literal notranslate"><span class="pre">OcoConfig</span></code> by adding additional <code class="docutils literal notranslate"><span class="pre">Creator</span></code> classes and functions. <code class="docutils literal notranslate"><span class="pre">oco_base_config.lua</span></code> extends <code class="docutils literal notranslate"><span class="pre">OcoConfig</span></code> and declares which <code class="docutils literal notranslate"><span class="pre">Creator</span></code> classes are used. It defines the <code class="docutils literal notranslate"><span class="pre">fm</span></code> table with nested tables for dependent <code class="docutils literal notranslate"><span class="pre">Creator</span></code> classes. Each <code class="docutils literal notranslate"><span class="pre">Creator</span></code> block contains a required <code class="docutils literal notranslate"><span class="pre">creator</span></code> attributes defining the class to use. Additional attributes can be declared in the block for use by the <code class="docutils literal notranslate"><span class="pre">Creator</span></code> object.</p>
+<p><code class="docutils literal"><span class="pre">oco_config.lua</span></code> extends the <code class="docutils literal"><span class="pre">ConfigCommon</span></code> object with <code class="docutils literal"><span class="pre">OcoConfig</span></code> by adding additional <code class="docutils literal"><span class="pre">Creator</span></code> classes and functions. <code class="docutils literal"><span class="pre">oco_base_config.lua</span></code> extends <code class="docutils literal"><span class="pre">OcoConfig</span></code> and declares which <code class="docutils literal"><span class="pre">Creator</span></code> classes are used. It defines the <code class="docutils literal"><span class="pre">fm</span></code> table with nested tables for dependent <code class="docutils literal"><span class="pre">Creator</span></code> classes. Each <code class="docutils literal"><span class="pre">Creator</span></code> block contains a required <code class="docutils literal"><span class="pre">creator</span></code> attributes defining the class to use. Additional attributes can be declared in the block for use by the <code class="docutils literal"><span class="pre">Creator</span></code> object.</p>
 <p>An abbreviated portion of the table is duplicated below:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">fm</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">fm</span> <span class="o">=</span> <span class="p">{</span>
    <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">oco_forward_model</span><span class="p">,</span>
    <span class="n">instrument</span> <span class="o">=</span> <span class="p">{</span>
       <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">ils_instrument</span><span class="p">,</span>
-      <span class="n">ils_half_width</span> <span class="o">=</span> <span class="p">{</span> <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">4.09e-04</span><span class="p">,</span> <span class="s2">&quot;um&quot;</span><span class="p">),</span>
-                         <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">1.08e-03</span><span class="p">,</span> <span class="s2">&quot;um&quot;</span><span class="p">),</span>
-                         <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">1.40e-03</span><span class="p">,</span> <span class="s2">&quot;um&quot;</span><span class="p">)</span> <span class="p">},</span>
+      <span class="n">ils_half_width</span> <span class="o">=</span> <span class="p">{</span> <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">4.09e-04</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">um&quot;</span><span class="p">),</span>
+                         <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">1.08e-03</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">um&quot;</span><span class="p">),</span>
+                         <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">1.40e-03</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">um&quot;</span><span class="p">)</span> <span class="p">},</span>
       <span class="n">dispersion</span> <span class="o">=</span> <span class="p">{</span>
          <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">dispersion_polynomial</span><span class="p">,</span>
          <span class="n">apriori</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">l1b_spectral_coefficient_i</span><span class="p">,</span>
-         <span class="n">covariance</span> <span class="o">=</span> <span class="n">OcoConfig</span><span class="p">.</span><span class="n">dispersion_covariance_i</span><span class="p">(</span><span class="s2">&quot;Instrument/Dispersion&quot;</span><span class="p">),</span>
+         <span class="n">covariance</span> <span class="o">=</span> <span class="n">OcoConfig</span><span class="p">.</span><span class="n">dispersion_covariance_i</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Instrument/Dispersion&quot;</span><span class="p">),</span>
          <span class="n">number_pixel</span> <span class="o">=</span>
-             <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_read_int_1d</span><span class="p">(</span><span class="s2">&quot;Instrument/Dispersion/number_pixel&quot;</span><span class="p">),</span>
+             <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_read_int_1d</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Instrument/Dispersion/number_pixel&quot;</span><span class="p">),</span>
          <span class="n">retrieved</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
          <span class="n">is_one_based</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
       <span class="p">},</span>
@@ -168,35 +177,35 @@
       <span class="p">},</span>
       <span class="n">pressure</span> <span class="o">=</span> <span class="p">{</span>
          <span class="n">apriori</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">ecmwf_pressure</span><span class="p">,</span>
-         <span class="n">covariance</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_covariance</span><span class="p">(</span><span class="s2">&quot;Surface_Pressure&quot;</span><span class="p">),</span>
-         <span class="n">a</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_read_double_1d</span><span class="p">(</span><span class="s2">&quot;Pressure/Pressure_sigma_a&quot;</span><span class="p">),</span>
-         <span class="n">b</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_read_double_1d</span><span class="p">(</span><span class="s2">&quot;Pressure/Pressure_sigma_b&quot;</span><span class="p">),</span>
+         <span class="n">covariance</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_covariance</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Surface_Pressure&quot;</span><span class="p">),</span>
+         <span class="n">a</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_read_double_1d</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Pressure/Pressure_sigma_a&quot;</span><span class="p">),</span>
+         <span class="n">b</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_read_double_1d</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Pressure/Pressure_sigma_b&quot;</span><span class="p">),</span>
          <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">pressure_sigma</span><span class="p">,</span>
       <span class="p">},</span>
       <span class="n">temperature</span> <span class="o">=</span> <span class="p">{</span>
-         <span class="n">apriori</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_apriori</span><span class="p">(</span><span class="s2">&quot;Temperature/Offset&quot;</span><span class="p">),</span>
-         <span class="n">covariance</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_covariance</span><span class="p">(</span><span class="s2">&quot;Temperature/Offset&quot;</span><span class="p">),</span>
+         <span class="n">apriori</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_apriori</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Temperature/Offset&quot;</span><span class="p">),</span>
+         <span class="n">covariance</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_covariance</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Temperature/Offset&quot;</span><span class="p">),</span>
          <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">temperature_ecmwf</span><span class="p">,</span>
       <span class="p">},</span>
       <span class="n">absorber</span> <span class="o">=</span> <span class="p">{</span>
          <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">absorber_creator</span><span class="p">,</span>
-         <span class="n">gases</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;H2O&quot;</span><span class="p">,</span> <span class="s2">&quot;O2&quot;</span><span class="p">},</span>
+         <span class="n">gases</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">CO2&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">H2O&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">O2&quot;</span><span class="p">},</span>
          <span class="n">CO2</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">apriori</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">tccon_co2_apriori_ecmwf</span><span class="p">,</span>
-            <span class="n">covariance</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_covariance</span><span class="p">(</span><span class="s2">&quot;Gas/CO2&quot;</span><span class="p">),</span>
-            <span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;v4.2.0_unscaled/co2_v4.2.0_with_ctm.hdf&quot;</span><span class="p">,</span>
+            <span class="n">covariance</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_covariance</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Gas/CO2&quot;</span><span class="p">),</span>
+            <span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">v4.2.0_unscaled/co2_v4.2.0_with_ctm.hdf&quot;</span><span class="p">,</span>
                 <span class="n">table_scale</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0038</span><span class="p">,</span> <span class="mf">0.9946</span><span class="p">},</span>
             <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">vmr_level</span><span class="p">,</span>
          <span class="p">},</span>
          <span class="n">H2O</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">scale_apriori</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
             <span class="n">scale_cov</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
-            <span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;v4.2.0_unscaled/h2o_v4.2.0.hdf&quot;</span><span class="p">,</span>
+            <span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">v4.2.0_unscaled/h2o_v4.2.0.hdf&quot;</span><span class="p">,</span>
             <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">vmr_ecmwf</span><span class="p">,</span>
          <span class="p">},</span>
          <span class="n">O2</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">apriori</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_read_double_1d</span><span class="p">(</span><span class="s2">&quot;Gas/O2/average_mole_fraction&quot;</span><span class="p">),</span>
-            <span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;v4.2.0_unscaled/o2_v4.2.0_drouin.hdf&quot;</span><span class="p">,</span>
+            <span class="n">apriori</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">hdf_read_double_1d</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Gas/O2/average_mole_fraction&quot;</span><span class="p">),</span>
+            <span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">v4.2.0_unscaled/o2_v4.2.0_drouin.hdf&quot;</span><span class="p">,</span>
                 <span class="n">table_scale</span> <span class="o">=</span> <span class="mf">1.0125</span><span class="p">,</span>
             <span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">vmr_level_constant_well_mixed</span><span class="p">,</span>
          <span class="p">},</span>
@@ -208,20 +217,20 @@
 </div>
 <div class="section" id="config-lua">
 <h2>config.lua<a class="headerlink" href="#config-lua" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">config.lua</span></code> file for any given instrument is where the <code class="docutils literal notranslate"><span class="pre">do_config</span></code> method is called. It is intentionally kept short, with all default behavior kept in <code class="docutils literal notranslate"><span class="pre">oco_base_config.lua</span></code> and higher.</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="nb">require</span> <span class="s2">&quot;oco_base_config&quot;</span>
+<p>The <code class="docutils literal"><span class="pre">config.lua</span></code> file for any given instrument is where the <code class="docutils literal"><span class="pre">do_config</span></code> method is called. It is intentionally kept short, with all default behavior kept in <code class="docutils literal"><span class="pre">oco_base_config.lua</span></code> and higher.</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="nb">require</span> <span class="s2">&quot;</span><span class="s">oco_base_config&quot;</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">OcoBaseConfig</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
 
 <span class="n">config</span><span class="p">:</span><span class="n">do_config</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>For configuration customization, it is standard practice to copy this file and place any changes after the <code class="docutils literal notranslate"><span class="pre">config</span></code> object is created and before the call to <code class="docutils literal notranslate"><span class="pre">do_config</span></code>. Most changes will take the form of modifying values from the <cite>fm`</cite> table from <code class="docutils literal notranslate"><span class="pre">oco_base_config.lua</span></code>.</p>
+<p>For configuration customization, it is standard practice to copy this file and place any changes after the <code class="docutils literal"><span class="pre">config</span></code> object is created and before the call to <code class="docutils literal"><span class="pre">do_config</span></code>. Most changes will take the form of modifying values from the <cite>fm`</cite> table from <code class="docutils literal"><span class="pre">oco_base_config.lua</span></code>.</p>
 </div>
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<p>The following snippets would all go in a modified <code class="docutils literal notranslate"><span class="pre">config.lua</span></code> before the <code class="docutils literal notranslate"><span class="pre">do_config</span></code> call. For instance:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="nb">require</span> <span class="s2">&quot;oco_base_config&quot;</span>
+<p>The following snippets would all go in a modified <code class="docutils literal"><span class="pre">config.lua</span></code> before the <code class="docutils literal"><span class="pre">do_config</span></code> call. For instance:</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="nb">require</span> <span class="s2">&quot;</span><span class="s">oco_base_config&quot;</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">OcoBaseConfig</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
 
@@ -233,8 +242,8 @@
 <p>For the remainder of the examples, we will just show the snippet of code that is added to the config file.</p>
 <div class="section" id="toggle-retrieval">
 <h3>Toggle Retrieval<a class="headerlink" href="#toggle-retrieval" title="Permalink to this headline">¶</a></h3>
-<p>Most creators for items that are not band dependent have the <code class="docutils literal notranslate"><span class="pre">retrieved</span></code> attribute for controlling if the value appears in the state vector or not. Here are various items that can be controlled this way:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">H2O</span><span class="p">.</span><span class="n">retrieved</span> <span class="o">=</span> <span class="kc">true</span>
+<p>Most creators for items that are not band dependent have the <code class="docutils literal"><span class="pre">retrieved</span></code> attribute for controlling if the value appears in the state vector or not. Here are various items that can be controlled this way:</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">H2O</span><span class="p">.</span><span class="n">retrieved</span> <span class="o">=</span> <span class="kc">true</span>
 <span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">CO2</span><span class="p">.</span><span class="n">retrieved</span> <span class="o">=</span>  <span class="kc">true</span>
 <span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">pressure</span><span class="p">.</span><span class="n">retrieved</span> <span class="o">=</span> <span class="kc">true</span>
 <span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">temperature</span><span class="p">.</span><span class="n">retrieved</span> <span class="o">=</span> <span class="kc">true</span>
@@ -245,55 +254,55 @@
 <div class="section" id="rayleigh-aerosol-model">
 <h3>Rayleigh Aerosol Model<a class="headerlink" href="#rayleigh-aerosol-model" title="Permalink to this headline">¶</a></h3>
 <p>To ignore any aerosol particles in the retrieval and instead use only Rayleigh scattering, use the following::</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">aerosol</span><span class="p">.</span><span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">rayleigh_only</span>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">aerosol</span><span class="p">.</span><span class="n">creator</span> <span class="o">=</span> <span class="n">ConfigCommon</span><span class="p">.</span><span class="n">rayleigh_only</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="toggle-retrieval-bands">
 <h3>Toggle Retrieval Bands<a class="headerlink" href="#toggle-retrieval-bands" title="Permalink to this headline">¶</a></h3>
-<p>By default the OCO retrieval uses all three spectrometer bands. One can pick and choose by using the strings: <code class="docutils literal notranslate"><span class="pre">ABO2</span></code>, <code class="docutils literal notranslate"><span class="pre">WCO2</span></code>, <code class="docutils literal notranslate"><span class="pre">SCO2</span></code> as in the following example of using the A-Band only::</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="nb">require</span> <span class="s2">&quot;single_band_support&quot;</span>
-<span class="n">config</span><span class="p">.</span><span class="n">which_spectrometers</span> <span class="o">=</span> <span class="s2">&quot;ABO2&quot;</span>
+<p>By default the OCO retrieval uses all three spectrometer bands. One can pick and choose by using the strings: <code class="docutils literal"><span class="pre">ABO2</span></code>, <code class="docutils literal"><span class="pre">WCO2</span></code>, <code class="docutils literal"><span class="pre">SCO2</span></code> as in the following example of using the A-Band only::</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="nb">require</span> <span class="s2">&quot;</span><span class="s">single_band_support&quot;</span>
+<span class="n">config</span><span class="p">.</span><span class="n">which_spectrometers</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">ABO2&quot;</span>
 <span class="n">init_single_band_support</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or to use only the two CO2 bands you would use the following:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="nb">require</span> <span class="s2">&quot;single_band_support&quot;</span>
-<span class="n">config</span><span class="p">.</span><span class="n">which_spectrometers</span> <span class="o">=</span> <span class="s2">&quot;WCO2 SCO2&quot;</span>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="nb">require</span> <span class="s2">&quot;</span><span class="s">single_band_support&quot;</span>
+<span class="n">config</span><span class="p">.</span><span class="n">which_spectrometers</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">WCO2 SCO2&quot;</span>
 <span class="n">init_single_band_support</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="ground-retrieval">
 <h3>Ground Retrieval<a class="headerlink" href="#ground-retrieval" title="Permalink to this headline">¶</a></h3>
-<p>Since the lambertian ground retrieval contains values for each band separately, the <code class="docutils literal notranslate"><span class="pre">retrieved</span></code> attribute will not work. Instead you can use the <code class="docutils literal notranslate"><span class="pre">retrieve_bands</span></code> attribute with a table containing a boolean for each band indicating whether or not it should be retrieved. For example to turn off the A-Band lambertian retrieval:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">ground</span><span class="p">.</span><span class="n">lambertian</span><span class="p">.</span><span class="n">retrieve_bands</span> <span class="o">=</span> <span class="p">{</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span> <span class="p">}</span>
+<p>Since the lambertian ground retrieval contains values for each band separately, the <code class="docutils literal"><span class="pre">retrieved</span></code> attribute will not work. Instead you can use the <code class="docutils literal"><span class="pre">retrieve_bands</span></code> attribute with a table containing a boolean for each band indicating whether or not it should be retrieved. For example to turn off the A-Band lambertian retrieval:</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">ground</span><span class="p">.</span><span class="n">lambertian</span><span class="p">.</span><span class="n">retrieve_bands</span> <span class="o">=</span> <span class="p">{</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span> <span class="p">}</span>
 </pre></div>
 </div>
-<p>Coxmunk retrievals do support the <code class="docutils literal notranslate"><span class="pre">retrieved</span></code> attribute and are controlled as follows:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">ground</span><span class="p">.</span><span class="n">coxmunk</span><span class="p">.</span><span class="n">retrieved</span> <span class="o">=</span> <span class="kc">false</span>
+<p>Coxmunk retrievals do support the <code class="docutils literal"><span class="pre">retrieved</span></code> attribute and are controlled as follows:</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">ground</span><span class="p">.</span><span class="n">coxmunk</span><span class="p">.</span><span class="n">retrieved</span> <span class="o">=</span> <span class="kc">false</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="absco-tables">
 <h3>ABSCO Tables<a class="headerlink" href="#absco-tables" title="Permalink to this headline">¶</a></h3>
-<p>The ABSCO tables on the OCO systems are installed in a central location. The <code class="docutils literal notranslate"><span class="pre">absco_path</span></code> value in the configuration specifies this location:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">absco_path</span> <span class="o">=</span> <span class="s2">&quot;/groups/algorithm/l2_fp/absco&quot;</span>
+<p>The ABSCO tables on the OCO systems are installed in a central location. The <code class="docutils literal"><span class="pre">absco_path</span></code> value in the configuration specifies this location:</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">absco_path</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">/groups/algorithm/l2_fp/absco&quot;</span>
 </pre></div>
 </div>
-<p>There is generally no need to change this configuration value unless processing on a different machine. However even then it is best to use the <code class="docutils literal notranslate"><span class="pre">abscodir</span></code> environmental variable which if present overrides what is present in the config file.</p>
-<p>A second ABSCO path, <code class="docutils literal notranslate"><span class="pre">absco_local_path</span></code> is a location where tables can be found on local disk from cluster machines. This is present to speed up processing, but the tables must be copied to each machine for this to be of any use:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">absco_local_path</span> <span class="o">=</span> <span class="s2">&quot;/state/partition1/groups/algorithm/l2_fp/absco&quot;</span>
+<p>There is generally no need to change this configuration value unless processing on a different machine. However even then it is best to use the <code class="docutils literal"><span class="pre">abscodir</span></code> environmental variable which if present overrides what is present in the config file.</p>
+<p>A second ABSCO path, <code class="docutils literal"><span class="pre">absco_local_path</span></code> is a location where tables can be found on local disk from cluster machines. This is present to speed up processing, but the tables must be copied to each machine for this to be of any use:</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">absco_local_path</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">/state/partition1/groups/algorithm/l2_fp/absco&quot;</span>
 </pre></div>
 </div>
-<p>To change which tables are used for each gas the relative path and filename of each table under the <code class="docutils literal notranslate"><span class="pre">absco_dir</span></code> path is used::</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">CO2</span><span class="p">.</span><span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;v4.2.0_unscaled/co2_v4.2.0_with_ctm.hdf&quot;</span>
-<span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">H2O</span><span class="p">.</span><span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;v4.2.0_unscaled/h2o_v4.2.0.hdf&quot;</span>
-<span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">O2</span><span class="p">.</span><span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;v4.2.0_unscaled/o2_v4.2.0_drouin.hdf&quot;</span>
+<p>To change which tables are used for each gas the relative path and filename of each table under the <code class="docutils literal"><span class="pre">absco_dir</span></code> path is used::</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">CO2</span><span class="p">.</span><span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">v4.2.0_unscaled/co2_v4.2.0_with_ctm.hdf&quot;</span>
+<span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">H2O</span><span class="p">.</span><span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">v4.2.0_unscaled/h2o_v4.2.0.hdf&quot;</span>
+<span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">O2</span><span class="p">.</span><span class="n">absco</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">v4.2.0_unscaled/o2_v4.2.0_drouin.hdf&quot;</span>
 </pre></div>
 </div>
-<p>The scaling applied to the tables for a gas can be changed with the <code class="docutils literal notranslate"><span class="pre">table_scale</span></code> attribute. If the value is an array then you can specify a different scaling per band. If a atomic value is used then the same value is used for all bands::</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">O2</span><span class="p">.</span><span class="n">table_scale</span> <span class="o">=</span> <span class="mf">1.0125</span>
+<p>The scaling applied to the tables for a gas can be changed with the <code class="docutils literal"><span class="pre">table_scale</span></code> attribute. If the value is an array then you can specify a different scaling per band. If a atomic value is used then the same value is used for all bands::</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">O2</span><span class="p">.</span><span class="n">table_scale</span> <span class="o">=</span> <span class="mf">1.0125</span>
 <span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">atmosphere</span><span class="p">.</span><span class="n">absorber</span><span class="p">.</span><span class="n">CO2</span><span class="p">.</span><span class="n">table_scale</span> <span class="o">=</span> <span class="p">{</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0038</span><span class="p">,</span> <span class="mf">0.9946</span> <span class="p">}</span>
 </pre></div>
 </div>
@@ -301,17 +310,17 @@
 </div>
 <div class="section" id="ils-half-width">
 <h3>ILS Half Width<a class="headerlink" href="#ils-half-width" title="Permalink to this headline">¶</a></h3>
-<p>The half width used in ILS convolution can be controlled band by band. The ILS expects a <code class="docutils literal notranslate"><span class="pre">DoubleWithUnit</span></code> object which is simply a class that wraps a value with its unit. The values are set in the <code class="docutils literal notranslate"><span class="pre">ils_half_width</span></code> array as shown in this example:</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">instrument</span><span class="p">.</span><span class="n">ils_half_width</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">4.09e-04</span><span class="p">,</span> <span class="s2">&quot;um&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">instrument</span><span class="p">.</span><span class="n">ils_half_width</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">1.08e-03</span><span class="p">,</span> <span class="s2">&quot;um&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">instrument</span><span class="p">.</span><span class="n">ils_half_width</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">1.40e-03</span><span class="p">,</span> <span class="s2">&quot;um&quot;</span><span class="p">)</span>
+<p>The half width used in ILS convolution can be controlled band by band. The ILS expects a <code class="docutils literal"><span class="pre">DoubleWithUnit</span></code> object which is simply a class that wraps a value with its unit. The values are set in the <code class="docutils literal"><span class="pre">ils_half_width</span></code> array as shown in this example:</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">instrument</span><span class="p">.</span><span class="n">ils_half_width</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">4.09e-04</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">um&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">instrument</span><span class="p">.</span><span class="n">ils_half_width</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">1.08e-03</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">um&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="p">.</span><span class="n">fm</span><span class="p">.</span><span class="n">instrument</span><span class="p">.</span><span class="n">ils_half_width</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">DoubleWithUnit</span><span class="p">(</span><span class="mf">1.40e-03</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">um&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="high-resolution-spectra">
 <h3>High Resolution Spectra<a class="headerlink" href="#high-resolution-spectra" title="Permalink to this headline">¶</a></h3>
-<p>The following option will enable output of high resolution spectra. These values are the raw output of the radiative transfer before the instrument model and solar model are applied. Furthermore, they will be on the high resolution grid used in the radiative transfer. When enabled a new group <code class="docutils literal notranslate"><span class="pre">HighResSpectra</span></code> will appear in the output files.</p>
-<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">write_high_res_spectra</span> <span class="o">=</span> <span class="kc">true</span>
+<p>The following option will enable output of high resolution spectra. These values are the raw output of the radiative transfer before the instrument model and solar model are applied. Furthermore, they will be on the high resolution grid used in the radiative transfer. When enabled a new group <code class="docutils literal"><span class="pre">HighResSpectra</span></code> will appear in the output files.</p>
+<div class="highlight-lua"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">.</span><span class="n">write_high_res_spectra</span> <span class="o">=</span> <span class="kc">true</span>
 </pre></div>
 </div>
 </div>
@@ -391,7 +400,7 @@
   </div>
   <footer id="pagefooter">&copy; Copyright 2018 California Institute of Technology. U.S. Government sponsorship acknowledged.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a>
-      1.7.1
+      1.6.6
         with the <a href="http://github.com/irskep/sphinx-better-theme">
           better</a> theme.
 
