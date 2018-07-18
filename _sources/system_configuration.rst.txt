@@ -16,12 +16,13 @@ The following packages are required to be installed on the target system:
 * `Python <https://www.python.org/>`_ >= 3.5
 * `Lua <https://www.lua.org/>`_ >= 5.2.2 built with a shared library
 * `SWIG <http://www.swig.org/>`_ >= 3.0.10
+* `Eigen <http://eigen.tuxfamily.org/index.php?title=Main_Page>`_ >= 3.3
 
 If a package for Lua that includes a shared library is not available for the target system, a version bundled with the software package can be used. See the :doc:`Compilation <compilation>` instructions for more information.
 
 On OS X, you may use `Homebrew <https://brew.sh/>`_ to obtain most of the required dependencies (Lua and Luabind will be built from the included source)::
 
-   $ brew install gsl cmake boost hdf5 swig python3 git-lfs doxygen pkgconfig graphviz
+   $ brew install gsl cmake boost hdf5 swig python3 git-lfs doxygen pkgconfig graphviz coreutils
 
 Python Requirements
 ===================
