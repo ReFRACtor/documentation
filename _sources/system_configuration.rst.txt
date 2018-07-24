@@ -13,6 +13,7 @@ The following packages are required to be installed on the target system:
 * `boost <http://www.boost.org/>`_ >= 1.59
 * `GNU Scientific Library (GSL) <https://www.gnu.org/software/gsl/>`_ >= 2.0
 * `HDF5 <https://support.hdfgroup.org/HDF5/>`_ >= 1.8
+* `NetCDF <https://www.unidata.ucar.edu/software/netcdf/>`_ >= 4.4.0
 * `Python <https://www.python.org/>`_ >= 3.5
 * `Lua <https://www.lua.org/>`_ >= 5.2.2 built with a shared library
 * `SWIG <http://www.swig.org/>`_ >= 3.0.10
@@ -22,7 +23,7 @@ If a package for Lua that includes a shared library is not available for the tar
 
 On OS X, you may use `Homebrew <https://brew.sh/>`_ to obtain most of the required dependencies (Lua and Luabind will be built from the included source)::
 
-   $ brew install gsl cmake boost hdf5 swig python3 git-lfs doxygen pkgconfig graphviz coreutils
+   $ brew install gsl cmake boost hdf5 netcdf swig python3 git-lfs doxygen pkgconfig graphviz coreutils
 
 Python Requirements
 ===================
